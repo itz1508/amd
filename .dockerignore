@@ -1,0 +1,12 @@
+# Private agent instructions and local run evidence
+.agents/
+.runs/
+.ssh/
+evidence/
+
+# Local development state
+.git/
+.venv/
+.pytest_cache/
+__pycache__/
+*.py[cod]
