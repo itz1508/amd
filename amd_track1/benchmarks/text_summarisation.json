@@ -1,0 +1,62 @@
+[
+  {
+    "task_id": "ts_001",
+    "prompt": "Summarize: The quick brown fox jumps over the lazy dog. The dog was sleeping under a tree.",
+    "expected_output": "The quick brown fox jumps over the lazy dog sleeping under a tree.",
+    "category": "text_summarisation"
+  },
+  {
+    "task_id": "ts_002",
+    "prompt": "Summarize: Artificial intelligence is transforming industries worldwide. Companies use AI for automation, decision making, and customer service. This technology improves efficiency and accuracy.",
+    "expected_output": "AI is transforming industries through automation, decision making, and customer service, improving efficiency and accuracy.",
+    "category": "text_summarisation"
+  },
+  {
+    "task_id": "ts_003",
+    "prompt": "Summarize in 10 words or less: The sun rises in the east and sets in the west every day.",
+    "expected_output": "Sun rises east, sets west daily.",
+    "category": "text_summarisation"
+  },
+  {
+    "task_id": "ts_004",
+    "prompt": "Summarize: Machine learning algorithms can be categorized into supervised, unsupervised, and reinforcement learning. Each type has its own applications and methodologies.",
+    "expected_output": "Machine learning has three types: supervised, unsupervised, and reinforcement learning.",
+    "category": "text_summarisation"
+  },
+  {
+    "task_id": "ts_005",
+    "prompt": "Summarize: The Industrial Revolution began in the late 18th century and introduced mechanized manufacturing. It changed society fundamentally.",
+    "expected_output": "The Industrial Revolution (late 18th century) introduced mechanized manufacturing, fundamentally changing society.",
+    "category": "text_summarisation"
+  },
+  {
+    "task_id": "ts_006",
+    "prompt": "Summarize: Python is a popular programming language. It is easy to learn, readable, and supports multiple paradigms including procedural, object-oriented, and functional programming.",
+    "expected_output": "Python is a popular, easy-to-learn programming language supporting multiple paradigms.",
+    "category": "text_summarisation"
+  },
+  {
+    "task_id": "ts_007",
+    "prompt": "Summarize: Climate change is affecting weather patterns globally. Temperatures are rising, and extreme weather events are becoming more frequent.",
+    "expected_output": "Climate change affects global weather with rising temperatures and more frequent extreme events.",
+    "category": "text_summarisation"
+  },
+  {
+    "task_id": "ts_008",
+    "prompt": "Summarize: The internet has revolutionized communication. People can now connect instantly across the globe through various digital platforms.",
+    "expected_output": "The internet revolutionized communication, enabling instant global connection through digital platforms.",
+    "category": "text_summarisation"
+  },
+  {
+    "task_id": "ts_009",
+    "prompt": "Summarize: Water is essential for all known forms of life. It covers about 71% of Earth's surface and is vital for various biological processes.",
+    "expected_output": "Water is essential for life, covering 71% of Earth's surface and vital for biological processes.",
+    "category": "text_summarisation"
+  },
+  {
+    "task_id": "ts_010",
+    "prompt": "Summarize: Blockchain technology provides a decentralized and secure way to store and verify transactions. It is the foundation of cryptocurrencies like Bitcoin.",
+    "expected_output": "Blockchain provides decentralized, secure transaction storage and verification, foundation for cryptocurrencies like Bitcoin.",
+    "category": "text_summarisation"
+  }
+]

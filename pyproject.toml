@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "amd_backend"
+version = "0.1.0"
+description = "AMD - Automated gap evaluation and migration pipeline"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+authors = [
+    {name = "AMD Operator", email = "operator@amd.local"}
+]
+dependencies = [
+    "pydantic>=2.10,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.scripts]
+amd_backend = "backend.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/backend"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/backend/**/*.py",
+    "README.md",
+    "SOURCE_OF_TRUTH.md",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+pythonpath = ["src"]
+addopts = "-q"

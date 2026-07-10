@@ -1,0 +1,62 @@
+[
+  {
+    "task_id": "lr_001",
+    "prompt": "If all Bloops are Razzies and all Razzies are Lazzies, are all Bloops definitely Lazzies?",
+    "expected_output": "Yes",
+    "category": "logical_reasoning"
+  },
+  {
+    "task_id": "lr_002",
+    "prompt": "What is the next number in the sequence: 2, 4, 8, 16, ?",
+    "expected_output": "32",
+    "category": "logical_reasoning"
+  },
+  {
+    "task_id": "lr_003",
+    "prompt": "If it rains, the ground gets wet. The ground is wet. Did it rain?",
+    "expected_output": "Not necessarily",
+    "category": "logical_reasoning"
+  },
+  {
+    "task_id": "lr_004",
+    "prompt": "Which is heavier: a pound of feathers or a pound of gold?",
+    "expected_output": "They weigh the same",
+    "category": "logical_reasoning"
+  },
+  {
+    "task_id": "lr_005",
+    "prompt": "A train leaves Station A heading towards Station B at 60 mph. Another train leaves Station B heading towards Station A at 40 mph. How fast are the trains approaching each other?",
+    "expected_output": "100 mph",
+    "category": "logical_reasoning"
+  },
+  {
+    "task_id": "lr_006",
+    "prompt": "If a man builds a house in 5 days, how long would it take 5 men to build the same house?",
+    "expected_output": "5 days",
+    "category": "logical_reasoning"
+  },
+  {
+    "task_id": "lr_007",
+    "prompt": "Choose the correct answer: Some flowers are red. Some red things are roses. Therefore: A) Some flowers are roses, B) Some roses are flowers, C) Neither",
+    "expected_output": "C) Neither",
+    "category": "logical_reasoning"
+  },
+  {
+    "task_id": "lr_008",
+    "prompt": "If you have a bowl with 6 apples and you take away 4, how many do you have?",
+    "expected_output": "4",
+    "category": "logical_reasoning"
+  },
+  {
+    "task_id": "lr_009",
+    "prompt": "A farmer has 17 sheep, and all but 9 die. How many are left?",
+    "expected_output": "9",
+    "category": "logical_reasoning"
+  },
+  {
+    "task_id": "lr_010",
+    "prompt": "What occurs once in a minute, twice in a moment, and never in a thousand years?",
+    "expected_output": "The letter M",
+    "category": "logical_reasoning"
+  }
+]

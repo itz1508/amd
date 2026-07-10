@@ -1,0 +1,65 @@
+{
+  "skill_id": "code_debugging",
+  "category": "code_debugging",
+  "description": "Identify and fix bugs in code",
+  "trigger_signals": [
+    "debug",
+    "fix this code",
+    "find the bug",
+    "what's wrong with",
+    "why doesn't this work",
+    "code not working",
+    "error in code",
+    "exception in",
+    "not producing correct output",
+    "incorrect result",
+    "why does this fail",
+    "fix the error",
+    "correct the code",
+    "bug hunt",
+    "troubleshoot",
+    "doesn't run",
+    "crashes",
+    "broken code",
+    "fix syntax error",
+    "fix logic error"
+  ],
+  "should_not_trigger_signals": [
+    "write code",
+    "write a function",
+    "generate code",
+    "create a program",
+    "implement",
+    "classify the sentiment",
+    "summarize",
+    "summarise",
+    "extract entities",
+    "calculate",
+    "solve"
+  ],
+  "prompt_procedure": {
+    "base_template": "Identify the bug in the following code and return the corrected version.\n\n{prompt}",
+    "variants": {
+      "with_explanation": "Identify the bug, explain it briefly, and return the corrected code.\n\n{prompt}",
+      "direct_fix": "Return only the corrected code without explanation.\n\n{prompt}"
+    },
+    "default": "with_explanation"
+  },
+  "expected_answer_shape": "code_string_or_object_with_fixed_code",
+  "validation_procedure": {
+    "checks": [
+      "corrected_code_exists",
+      "syntax_valid_when_supported",
+      "original_interface_preserved",
+      "explanation_identifies_concrete_defect_when_requested"
+    ],
+    "tools": ["code_syntax_checker"]
+  },
+  "preferred_tool": "code_syntax_checker",
+  "fallback_behavior": "use_model_with_syntax_validation",
+  "maximum_answer_length_policy": {
+    "max_length": 5000,
+    "truncate": false,
+    "warn_if_exceeds": true
+  }
+}

@@ -10,3 +10,9 @@ evidence/
 .pytest_cache/
 __pycache__/
 *.py[cod]
+
+# Secrets and environment
+.env
+.env.*
+*.key
+*.pem

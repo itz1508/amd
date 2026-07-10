@@ -1,0 +1,70 @@
+{
+  "skill_id": "code_generation",
+  "category": "code_generation",
+  "description": "Generate code to solve programming tasks",
+  "trigger_signals": [
+    "write code",
+    "write a function",
+    "write a program",
+    "write a script",
+    "write a class",
+    "write a method",
+    "generate code",
+    "create a program",
+    "implement",
+    "code for",
+    "function to",
+    "function that",
+    "generate a function",
+    "create a module",
+    "write an algorithm",
+    "program to",
+    "code that",
+    "write python code",
+    "write python",
+    "write javascript code",
+    "give me code",
+    "produce code",
+    "develop a function",
+    "build a function",
+    "write the following function",
+    "implement the following",
+    "write a"
+  ],
+  "should_not_trigger_signals": [
+    "debug",
+    "fix this code",
+    "find the bug",
+    "classify the sentiment",
+    "summarize",
+    "summarise",
+    "extract entities",
+    "solve for x"
+  ],
+  "prompt_procedure": {
+    "base_template": "Write code to solve the following task. Return only the code.\n\n{prompt}",
+    "variants": {
+      "with_signature": "Write a function with the following signature:\n{signature}\n\n{prompt}",
+      "with_example": "Write code based on the following example.\n\n{prompt}",
+      "complete_code": "Complete the following code:\n\n{prompt}"
+    },
+    "default": "base_template"
+  },
+  "expected_answer_shape": "code_string",
+  "validation_procedure": {
+    "checks": [
+      "function_or_program_exists",
+      "syntax_valid_when_supported",
+      "requested_signature_retained",
+      "forbidden_extra_output_absent"
+    ],
+    "tools": ["code_syntax_checker"]
+  },
+  "preferred_tool": "code_syntax_checker",
+  "fallback_behavior": "use_model_with_syntax_and_signature_validation",
+  "maximum_answer_length_policy": {
+    "max_length": 10000,
+    "truncate": false,
+    "warn_if_exceeds": true
+  }
+}

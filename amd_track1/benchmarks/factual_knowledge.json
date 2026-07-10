@@ -1,0 +1,62 @@
+[
+  {
+    "task_id": "fk_001",
+    "prompt": "What is the capital of France?",
+    "expected_output": "Paris",
+    "category": "factual_knowledge"
+  },
+  {
+    "task_id": "fk_002",
+    "prompt": "Who wrote 'Romeo and Juliet'?",
+    "expected_output": "William Shakespeare",
+    "category": "factual_knowledge"
+  },
+  {
+    "task_id": "fk_003",
+    "prompt": "When was the United States Declaration of Independence signed?",
+    "expected_output": "July 4, 1776",
+    "category": "factual_knowledge"
+  },
+  {
+    "task_id": "fk_004",
+    "prompt": "What is the chemical symbol for gold?",
+    "expected_output": "Au",
+    "category": "factual_knowledge"
+  },
+  {
+    "task_id": "fk_005",
+    "prompt": "Which planet is known as the Red Planet?",
+    "expected_output": "Mars",
+    "category": "factual_knowledge"
+  },
+  {
+    "task_id": "fk_006",
+    "prompt": "What is the largest mammal on Earth?",
+    "expected_output": "Blue whale",
+    "category": "factual_knowledge"
+  },
+  {
+    "task_id": "fk_007",
+    "prompt": "In which country is the Great Pyramid of Giza located?",
+    "expected_output": "Egypt",
+    "category": "factual_knowledge"
+  },
+  {
+    "task_id": "fk_008",
+    "prompt": "What is the square root of 64?",
+    "expected_output": "8",
+    "category": "factual_knowledge"
+  },
+  {
+    "task_id": "fk_009",
+    "prompt": "Who painted the Mona Lisa?",
+    "expected_output": "Leonardo da Vinci",
+    "category": "factual_knowledge"
+  },
+  {
+    "task_id": "fk_010",
+    "prompt": "What is the currency of Japan?",
+    "expected_output": "Yen",
+    "category": "factual_knowledge"
+  }
+]

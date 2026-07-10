@@ -1,0 +1,62 @@
+[
+  {
+    "task_id": "sc_001",
+    "prompt": "Classify sentiment: I love this product! It's amazing.",
+    "expected_output": "positive",
+    "category": "sentiment_classification"
+  },
+  {
+    "task_id": "sc_002",
+    "prompt": "Classify sentiment: This is the worst experience ever.",
+    "expected_output": "negative",
+    "category": "sentiment_classification"
+  },
+  {
+    "task_id": "sc_003",
+    "prompt": "Classify sentiment: The service was okay, nothing special.",
+    "expected_output": "neutral",
+    "category": "sentiment_classification"
+  },
+  {
+    "task_id": "sc_004",
+    "prompt": "Classify sentiment: I'm extremely happy with the results!",
+    "expected_output": "positive",
+    "category": "sentiment_classification"
+  },
+  {
+    "task_id": "sc_005",
+    "prompt": "Classify sentiment: This is terrible and disappointing.",
+    "expected_output": "negative",
+    "category": "sentiment_classification"
+  },
+  {
+    "task_id": "sc_006",
+    "prompt": "Classify sentiment: It works as expected.",
+    "expected_output": "neutral",
+    "category": "sentiment_classification"
+  },
+  {
+    "task_id": "sc_007",
+    "prompt": "Classify sentiment: Absolutely fantastic! Best purchase ever.",
+    "expected_output": "positive",
+    "category": "sentiment_classification"
+  },
+  {
+    "task_id": "sc_008",
+    "prompt": "Classify sentiment: I hate when things don't work properly.",
+    "expected_output": "negative",
+    "category": "sentiment_classification"
+  },
+  {
+    "task_id": "sc_009",
+    "prompt": "Classify sentiment: The weather is nice today.",
+    "expected_output": "neutral",
+    "category": "sentiment_classification"
+  },
+  {
+    "task_id": "sc_010",
+    "prompt": "Classify sentiment: I'm thrilled with the excellent service!",
+    "expected_output": "positive",
+    "category": "sentiment_classification"
+  }
+]

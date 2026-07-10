@@ -1,0 +1,65 @@
+{
+  "skill_id": "text_summarisation",
+  "category": "text_summarisation",
+  "description": "Summarize text while preserving key information",
+  "trigger_signals": [
+    "summarize",
+    "summarise",
+    "summary",
+    "sum up",
+    "condense",
+    "brief version",
+    "short version",
+    "tl;dr",
+    "tldr",
+    "in brief",
+    "in short",
+    "key points",
+    "main points",
+    "main idea",
+    "abstract",
+    "overview",
+    "recap",
+    "give me a summary",
+    "what are the main points",
+    "extract the key information"
+  ],
+  "should_not_trigger_signals": [
+    "calculate",
+    "solve",
+    "write code",
+    "debug",
+    "classify the sentiment",
+    "extract entities",
+    "named entity",
+    "find the bug",
+    "what is the capital"
+  ],
+  "prompt_procedure": {
+    "base_template": "Summarize the following text. Preserve all key information.\n\n{prompt}",
+    "variants": {
+      "word_limit": "Summarize the following text in {limit} words or less.\n\n{prompt}",
+      "sentence_limit": "Summarize the following text in {limit} sentences or less.\n\n{prompt}",
+      "bullet_points": "Summarize the following text as bullet points.\n\n{prompt}"
+    },
+    "default": "base_template"
+  },
+  "expected_answer_shape": "string",
+  "validation_procedure": {
+    "checks": [
+      "sentence_count",
+      "word_count",
+      "requested_format",
+      "prohibited_expansion_beyond_source",
+      "empty_or_copied_source_detection"
+    ],
+    "tools": ["summary_constraint_checker"]
+  },
+  "preferred_tool": "summary_constraint_checker",
+  "fallback_behavior": "use_model_with_constraint_validation",
+  "maximum_answer_length_policy": {
+    "max_length": 2000,
+    "truncate": false,
+    "warn_if_exceeds": true
+  }
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "task_id": "cg_001",
+    "prompt": "Write a Python function to add two numbers:",
+    "expected_output": "def add(a, b):\n    return a + b",
+    "category": "code_generation"
+  },
+  {
+    "task_id": "cg_002",
+    "prompt": "Write a Python function to calculate factorial:",
+    "expected_output": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)",
+    "category": "code_generation"
+  },
+  {
+    "task_id": "cg_003",
+    "prompt": "Write a Python function that returns True if a number is even:",
+    "expected_output": "def is_even(n):\n    return n % 2 == 0",
+    "category": "code_generation"
+  },
+  {
+    "task_id": "cg_004",
+    "prompt": "Write a Python function to reverse a string:",
+    "expected_output": "def reverse_string(s):\n    return s[::-1]",
+    "category": "code_generation"
+  },
+  {
+    "task_id": "cg_005",
+    "prompt": "Write a Python function to find the maximum of two numbers:",
+    "expected_output": "def find_max(a, b):\n    return a if a > b else b",
+    "category": "code_generation"
+  },
+  {
+    "task_id": "cg_006",
+    "prompt": "Write a Python function to check if a string is a palindrome:",
+    "expected_output": "def is_palindrome(s):\n    return s == s[::-1]",
+    "category": "code_generation"
+  },
+  {
+    "task_id": "cg_007",
+    "prompt": "Write a Python function to calculate the sum of a list:",
+    "expected_output": "def sum_list(items):\n    return sum(items)",
+    "category": "code_generation"
+  },
+  {
+    "task_id": "cg_008",
+    "prompt": "Write a Python function to generate the Fibonacci sequence up to n terms:",
+    "expected_output": "def fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        yield a\n        a, b = b, a + b",
+    "category": "code_generation"
+  },
+  {
+    "task_id": "cg_009",
+    "prompt": "Write a Python function that returns the length of the longest word in a string:",
+    "expected_output": "def longest_word_length(s):\n    return max(len(word) for word in s.split())",
+    "category": "code_generation"
+  },
+  {
+    "task_id": "cg_010",
+    "prompt": "Write a Python function to check if two strings are anagrams:",
+    "expected_output": "def are_anagrams(a, b):\n    return sorted(a) == sorted(b)",
+    "category": "code_generation"
+  }
+]

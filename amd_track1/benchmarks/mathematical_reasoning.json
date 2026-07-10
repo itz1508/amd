@@ -1,0 +1,62 @@
+[
+  {
+    "task_id": "mr_001",
+    "prompt": "Calculate: 15 + 27",
+    "expected_output": "42",
+    "category": "mathematical_reasoning"
+  },
+  {
+    "task_id": "mr_002",
+    "prompt": "What is 100 divided by 5?",
+    "expected_output": "20",
+    "category": "mathematical_reasoning"
+  },
+  {
+    "task_id": "mr_003",
+    "prompt": "Multiply: 7 * 8",
+    "expected_output": "56",
+    "category": "mathematical_reasoning"
+  },
+  {
+    "task_id": "mr_004",
+    "prompt": "Subtract: 50 - 17",
+    "expected_output": "33",
+    "category": "mathematical_reasoning"
+  },
+  {
+    "task_id": "mr_005",
+    "prompt": "Calculate: (12 + 8) * 3",
+    "expected_output": "60",
+    "category": "mathematical_reasoning"
+  },
+  {
+    "task_id": "mr_006",
+    "prompt": "What is 5 squared?",
+    "expected_output": "25",
+    "category": "mathematical_reasoning"
+  },
+  {
+    "task_id": "mr_007",
+    "prompt": "Calculate: 100 / 4 + 15",
+    "expected_output": "40",
+    "category": "mathematical_reasoning"
+  },
+  {
+    "task_id": "mr_008",
+    "prompt": "What is 2 to the power of 8?",
+    "expected_output": "256",
+    "category": "mathematical_reasoning"
+  },
+  {
+    "task_id": "mr_009",
+    "prompt": "Calculate: 15% of 200",
+    "expected_output": "30",
+    "category": "mathematical_reasoning"
+  },
+  {
+    "task_id": "mr_010",
+    "prompt": "What is the remainder when 17 is divided by 5?",
+    "expected_output": "2",
+    "category": "mathematical_reasoning"
+  }
+]

@@ -1,0 +1,77 @@
+{
+  "skill_id": "mathematical_reasoning",
+  "category": "mathematical_reasoning",
+  "description": "Solve mathematical problems and perform calculations",
+  "trigger_signals": [
+    "calculate",
+    "solve",
+    "what is the value of",
+    "compute",
+    "evaluate",
+    "how much is",
+    "how many are",
+    "sum",
+    "difference",
+    "product",
+    "quotient",
+    "add",
+    "subtract",
+    "multiply",
+    "divide",
+    "percentage",
+    "percent",
+    "ratio",
+    "fraction",
+    "decimal",
+    "square root",
+    "solve for x",
+    "solve for y",
+    "equation",
+    "formula",
+    "+",
+    "-",
+    "*",
+    "/",
+    "=",
+    "^",
+    "**"
+  ],
+  "should_not_trigger_signals": [
+    "write code",
+    "write a function",
+    "debug",
+    "classify the sentiment",
+    "summarize",
+    "summarise",
+    "extract entities",
+    "named entity",
+    "find the bug",
+    "what is the capital",
+    "who invented"
+  ],
+  "prompt_procedure": {
+    "base_template": "Solve the following mathematical problem. Return only the final answer in numeric form.\n\n{prompt}",
+    "variants": {
+      "show_work": "Solve step by step and show your work.\n\n{prompt}",
+      "direct": "{prompt}"
+    },
+    "default": "direct"
+  },
+  "expected_answer_shape": "numeric_string_or_expression",
+  "validation_procedure": {
+    "checks": [
+      "numeric_form",
+      "recomputation_when_possible",
+      "units_check",
+      "percentage_rounding_constraints"
+    ],
+    "tools": ["arithmetic_evaluator"]
+  },
+  "preferred_tool": "arithmetic_evaluator",
+  "fallback_behavior": "use_model_with_tool_validation",
+  "maximum_answer_length_policy": {
+    "max_length": 500,
+    "truncate": false,
+    "warn_if_exceeds": true
+  }
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "task_id": "ner_001",
+    "prompt": "Extract named entities: John Doe works at Google in New York.",
+    "expected_output": "[{\"type\": \"person\", \"value\": \"John Doe\"}, {\"type\": \"organization\", \"value\": \"Google\"}, {\"type\": \"location\", \"value\": \"New York\"}]",
+    "category": "named_entity_recognition"
+  },
+  {
+    "task_id": "ner_002",
+    "prompt": "Extract named entities: Apple Inc. was founded by Steve Jobs and Steve Wozniak on April 1, 1976.",
+    "expected_output": "[{\"type\": \"organization\", \"value\": \"Apple Inc.\"}, {\"type\": \"person\", \"value\": \"Steve Jobs\"}, {\"type\": \"person\", \"value\": \"Steve Wozniak\"}, {\"type\": \"date\", \"value\": \"April 1, 1976\"}]",
+    "category": "named_entity_recognition"
+  },
+  {
+    "task_id": "ner_003",
+    "prompt": "Extract named entities: The Eiffel Tower is located in Paris, France.",
+    "expected_output": "[{\"type\": \"organization\", \"value\": \"Eiffel Tower\"}, {\"type\": \"location\", \"value\": \"Paris\"}, {\"type\": \"location\", \"value\": \"France\"}]",
+    "category": "named_entity_recognition"
+  },
+  {
+    "task_id": "ner_004",
+    "prompt": "Extract named entities: Microsoft Corporation was established by Bill Gates.",
+    "expected_output": "[{\"type\": \"organization\", \"value\": \"Microsoft Corporation\"}, {\"type\": \"person\", \"value\": \"Bill Gates\"}]",
+    "category": "named_entity_recognition"
+  },
+  {
+    "task_id": "ner_005",
+    "prompt": "Extract named entities: The meeting is scheduled for January 15, 2024 in London.",
+    "expected_output": "[{\"type\": \"date\", \"value\": \"January 15, 2024\"}, {\"type\": \"location\", \"value\": \"London\"}]",
+    "category": "named_entity_recognition"
+  },
+  {
+    "task_id": "ner_006",
+    "prompt": "Extract named entities: Elon Musk is the CEO of SpaceX and Tesla.",
+    "expected_output": "[{\"type\": \"person\", \"value\": \"Elon Musk\"}, {\"type\": \"organization\", \"value\": \"SpaceX\"}, {\"type\": \"organization\", \"value\": \"Tesla\"}]",
+    "category": "named_entity_recognition"
+  },
+  {
+    "task_id": "ner_007",
+    "prompt": "Extract named entities: The conference will be held at the Marriott Hotel in San Francisco on July 20, 2024.",
+    "expected_output": "[{\"type\": \"organization\", \"value\": \"Marriott Hotel\"}, {\"type\": \"location\", \"value\": \"San Francisco\"}, {\"type\": \"date\", \"value\": \"July 20, 2024\"}]",
+    "category": "named_entity_recognition"
+  },
+  {
+    "task_id": "ner_008",
+    "prompt": "Extract named entities: Albert Einstein developed the theory of relativity while working in Germany.",
+    "expected_output": "[{\"type\": \"person\", \"value\": \"Albert Einstein\"}, {\"type\": \"location\", \"value\": \"Germany\"}]",
+    "category": "named_entity_recognition"
+  },
+  {
+    "task_id": "ner_009",
+    "prompt": "Extract named entities: The Amazon rainforest is the largest tropical rainforest, covering most of the Amazon basin of South America.",
+    "expected_output": "[{\"type\": \"organization\", \"value\": \"Amazon\"}, {\"type\": \"location\", \"value\": \"Amazon rainforest\"}, {\"type\": \"location\", \"value\": \"South America\"}]",
+    "category": "named_entity_recognition"
+  },
+  {
+    "task_id": "ner_010",
+    "prompt": "Extract named entities: Mark Zuckerberg founded Facebook in 2004.",
+    "expected_output": "[{\"type\": \"person\", \"value\": \"Mark Zuckerberg\"}, {\"type\": \"organization\", \"value\": \"Facebook\"}, {\"type\": \"date\", \"value\": \"2004\"}]",
+    "category": "named_entity_recognition"
+  }
+]

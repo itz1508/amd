@@ -1,0 +1,62 @@
+[
+  {
+    "task_id": "cd_001",
+    "prompt": "Find the bug and fix it:\n\ndef add(a, b):\n    return a - b",
+    "expected_output": "def add(a, b):\n    return a + b",
+    "category": "code_debugging"
+  },
+  {
+    "task_id": "cd_002",
+    "prompt": "This function is supposed to calculate factorial but has a bug:\n\ndef factorial(n):\n    if n == 0:\n        return 0\n    return n * factorial(n - 1)",
+    "expected_output": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)",
+    "category": "code_debugging"
+  },
+  {
+    "task_id": "cd_003",
+    "prompt": "Fix the syntax error:\n\ndef greet(name\n    return 'Hello, ' + name",
+    "expected_output": "def greet(name):\n    return 'Hello, ' + name",
+    "category": "code_debugging"
+  },
+  {
+    "task_id": "cd_004",
+    "prompt": "This loop doesn't print numbers 1 to 10:\n\nfor i in range(10):\n    print(i + 2)",
+    "expected_output": "for i in range(10):\n    print(i + 1)",
+    "category": "code_debugging"
+  },
+  {
+    "task_id": "cd_005",
+    "prompt": "Fix the list indexing error:\n\ndef get_last(items):\n    return items[len(items)]",
+    "expected_output": "def get_last(items):\n    return items[len(items) - 1]",
+    "category": "code_debugging"
+  },
+  {
+    "task_id": "cd_006",
+    "prompt": "This function should return True for even numbers:\n\ndef is_even(n):\n    return n / 2 == int(n / 2)",
+    "expected_output": "def is_even(n):\n    return n % 2 == 0",
+    "category": "code_debugging"
+  },
+  {
+    "task_id": "cd_007",
+    "prompt": "Fix the indentation:\n\ndef multiply(a, b):\nreturn a * b",
+    "expected_output": "def multiply(a, b):\n    return a * b",
+    "category": "code_debugging"
+  },
+  {
+    "task_id": "cd_008",
+    "prompt": "This function has a logic error:\n\ndef find_max(a, b):\n    if a > b:\n        return b\n    return a",
+    "expected_output": "def find_max(a, b):\n    if a > b:\n        return a\n    return b",
+    "category": "code_debugging"
+  },
+  {
+    "task_id": "cd_009",
+    "prompt": "Fix the missing colon:\n\ndef calculate(x, y)\n    return x + y",
+    "expected_output": "def calculate(x, y):\n    return x + y",
+    "category": "code_debugging"
+  },
+  {
+    "task_id": "cd_010",
+    "prompt": "This function should reverse a list:\n\ndef reverse_list(lst):\n    lst.reverse()",
+    "expected_output": "def reverse_list(lst):\n    return lst[::-1]",
+    "category": "code_debugging"
+  }
+]

@@ -1,0 +1,64 @@
+{
+  "skill_id": "named_entity_recognition",
+  "category": "named_entity_recognition",
+  "description": "Extract named entities from text (person, organization, location, date)",
+  "trigger_signals": [
+    "extract",
+    "extract entities",
+    "named entity",
+    "identify entities",
+    "find entities",
+    "entity recognition",
+    "NER",
+    "extract person",
+    "extract organization",
+    "extract location",
+    "extract date",
+    "who is mentioned",
+    "what organizations",
+    "where is mentioned",
+    "when is mentioned",
+    "list all people",
+    "list all organizations",
+    "list all locations",
+    "list all dates",
+    "tag entities",
+    "annotate entities"
+  ],
+  "should_not_trigger_signals": [
+    "calculate",
+    "solve",
+    "write code",
+    "debug",
+    "classify the sentiment",
+    "summarize",
+    "summarise",
+    "find the bug"
+  ],
+  "prompt_procedure": {
+    "base_template": "Extract all named entities from the following text. Return as a list of entities with their types. Supported types: person, organization, location, date.\n\n{prompt}",
+    "variants": {
+      "json_format": "Extract entities and return as JSON array with type and value fields. Types: person, organization, location, date.\n\n{prompt}",
+      "text_format": "Extract entities. Format each as: [type]: [entity]\n\n{prompt}"
+    },
+    "default": "json_format"
+  },
+  "expected_answer_shape": "json_array_or_textual_list",
+  "validation_procedure": {
+    "checks": [
+      "parseable_structure",
+      "allowed_entity_labels",
+      "required_fields",
+      "no_malformed_entries",
+      "duplicate_detection"
+    ],
+    "tools": ["named_entity_output_validator"]
+  },
+  "preferred_tool": "named_entity_output_validator",
+  "fallback_behavior": "use_model_with_schema_validation",
+  "maximum_answer_length_policy": {
+    "max_length": 5000,
+    "truncate": false,
+    "warn_if_exceeds": true
+  }
+}

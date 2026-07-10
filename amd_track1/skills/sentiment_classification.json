@@ -1,0 +1,62 @@
+{
+  "skill_id": "sentiment_classification",
+  "category": "sentiment_classification",
+  "description": "Classify the sentiment of a given text",
+  "trigger_signals": [
+    "sentiment",
+    "classify sentiment",
+    "how does this sound",
+    "tone",
+    "emotion",
+    "feeling",
+    "attitude",
+    "mood",
+    "positive or negative",
+    "happy or sad",
+    "angry or calm",
+    "opinion",
+    "reaction",
+    "classify the following text",
+    "what is the sentiment",
+    "detect sentiment",
+    "sentiment analysis",
+    "rate the sentiment"
+  ],
+  "should_not_trigger_signals": [
+    "calculate",
+    "solve",
+    "write code",
+    "debug",
+    "summarize",
+    "summarise",
+    "extract entities",
+    "named entity",
+    "find the bug",
+    "what is the capital"
+  ],
+  "prompt_procedure": {
+    "base_template": "Classify the sentiment of the following text. Use only one of these labels: positive, negative, neutral.\n\n{prompt}",
+    "variants": {
+      "with_justification": "Classify the sentiment and provide a brief justification. Use only: positive, negative, neutral.\n\n{prompt}",
+      "direct": "Classify sentiment. Only respond with: positive, negative, or neutral.\n\n{prompt}"
+    },
+    "default": "direct"
+  },
+  "expected_answer_shape": "one_of:['positive', 'negative', 'neutral']",
+  "validation_procedure": {
+    "checks": [
+      "allowed_label_enforcement",
+      "label_normalization",
+      "exact_format",
+      "justification_presence_only_when_required"
+    ],
+    "tools": ["sentiment_label_validator"]
+  },
+  "preferred_tool": "sentiment_label_validator",
+  "fallback_behavior": "use_model_with_strict_validation",
+  "maximum_answer_length_policy": {
+    "max_length": 100,
+    "truncate": true,
+    "warn_if_exceeds": true
+  }
+}

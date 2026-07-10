@@ -1,0 +1,73 @@
+{
+  "skill_id": "logical_reasoning",
+  "category": "logical_reasoning",
+  "description": "Solve logical and deductive reasoning problems",
+  "trigger_signals": [
+    "logic",
+    "logic puzzle",
+    "solve this riddle",
+    "deductive reasoning",
+    "if then",
+    "imply",
+    "implies",
+    "therefore",
+    "conclusion",
+    "which must be true",
+    "which cannot be true",
+    "what follows",
+    "what must be",
+    "what cannot be",
+    "only one answer",
+    "select the correct",
+    "choose the right",
+    "which one",
+    "exactly one",
+    "syllogism",
+    "premise",
+    "hypothesis",
+    "deduce",
+    "infer",
+    "reason through",
+    "solve the puzzle",
+    "who is the",
+    "are all",
+    "is it true that"
+  ],
+  "should_not_trigger_signals": [
+    "calculate",
+    "solve for x",
+    "write code",
+    "debug",
+    "classify the sentiment",
+    "summarize",
+    "summarise",
+    "extract entities"
+  ],
+  "prompt_procedure": {
+    "base_template": "Solve the following logical reasoning problem. Provide the correct answer.\n\n{prompt}",
+    "variants": {
+      "multiple_choice": "Solve the following logical reasoning problem. Select exactly one correct answer from the options provided.\n\n{prompt}",
+      "with_explanation": "Solve the logical reasoning problem and explain your reasoning.\n\n{prompt}",
+      "direct": "Solve: {prompt}"
+    },
+    "default": "direct"
+  },
+  "expected_answer_shape": "string_or_selected_option",
+  "validation_procedure": {
+    "checks": [
+      "response_selects_a_valid_candidate",
+      "constraints_are_not_internally_contradicted",
+      "deterministic_enumeration_when_feasible",
+      "exact_one_answer_check",
+      "duplicate_or_contradictory_conclusion_detection"
+    ],
+    "tools": ["logic_consistency_checker"]
+  },
+  "preferred_tool": "logic_consistency_checker",
+  "fallback_behavior": "use_model_with_enumeration_validation",
+  "maximum_answer_length_policy": {
+    "max_length": 2000,
+    "truncate": false,
+    "warn_if_exceeds": true
+  }
+}

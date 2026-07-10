@@ -1,0 +1,70 @@
+{
+  "skill_id": "factual_knowledge",
+  "category": "factual_knowledge",
+  "description": "Answer factual questions directly with accurate information",
+  "trigger_signals": [
+    "what is",
+    "who is",
+    "when is",
+    "where is",
+    "which is",
+    "how many",
+    "how much",
+    "define",
+    "explain",
+    "tell me about",
+    "what was",
+    "what are",
+    "facts",
+    "information about",
+    "capital of",
+    "inventor of",
+    "discoverer of",
+    "history of",
+    "meaning of"
+  ],
+  "should_not_trigger_signals": [
+    "write code",
+    "write a function",
+    "debug",
+    "fix this code",
+    "calculate",
+    "solve for",
+    "summarize",
+    "summarise",
+    "classify the sentiment",
+    "extract entities",
+    "named entity",
+    "find the bug",
+    "what's wrong with this code",
+    "logic puzzle",
+    "solve this riddle"
+  ],
+  "prompt_procedure": {
+    "base_template": "Answer the following question directly and concisely.\n\n{prompt}",
+    "variants": {
+      "direct": "{prompt}",
+      "explain": "Answer the question and provide a brief explanation only if asked.\n\n{prompt}"
+    },
+    "default": "direct"
+  },
+  "expected_answer_shape": "string",
+  "validation_procedure": {
+    "checks": [
+      "non_empty",
+      "directly_addresses_prompt",
+      "no_obvious_refusal",
+      "format_compliance"
+    ],
+    "warnings": [
+      "factual_correctness_cannot_be_fully_proven_locally"
+    ]
+  },
+  "preferred_tool": "none",
+  "fallback_behavior": "use_model_with_validation",
+  "maximum_answer_length_policy": {
+    "max_length": 2000,
+    "truncate": false,
+    "warn_if_exceeds": true
+  }
+}
