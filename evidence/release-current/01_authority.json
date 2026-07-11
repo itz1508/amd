@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "canonical_repository": "D:\\Dev\\amd",
+  "canonical_track1_root": "D:\\Dev\\amd\\amd_track1",
+  "entrypoint": ["python", "-m", "amd_track1.entrypoint"],
+  "dockerfile": "D:\\Dev\\amd\\amd_track1\\Dockerfile",
+  "docker_build_context": "D:\\Dev\\amd",
+  "release_evidence_root": "D:\\Dev\\amd\\evidence\\release-current",
+  "reference_only_roots": [
+    "D:\\Dev\\Edge",
+    "D:\\Dev\\amd-runtime-fix"
+  ],
+  "excluded_release_surfaces": [
+    "src",
+    "amd_track2",
+    "local-Qwen",
+    "benchmarks",
+    "temporary outputs",
+    "historical bundles"
+  ],
+  "working_tree_release_allowed": false
+}

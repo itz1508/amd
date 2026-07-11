@@ -1,0 +1,27 @@
+AMD Track 1 local image build
+
+Repository: D:\Dev\amd
+Runtime source commit: f14d111b3417990bd5c33ad9d22b84609bb6ba63
+Dockerfile: D:\Dev\amd\amd_track1\Dockerfile
+Build context: D:\Dev\amd
+
+Command:
+  docker buildx build --no-cache --platform linux/amd64
+  -f D:\Dev\amd\amd_track1\Dockerfile
+  -t ghcr.io/itz1508/amd-track1:f14d111-final
+  -t ghcr.io/itz1508/amd-track1:latest
+  --load D:\Dev\amd
+
+Build exit code: 0
+Warning: Dockerfile FROM/as keyword casing only; non-fatal.
+
+Immutable tag: ghcr.io/itz1508/amd-track1:f14d111-final
+Latest tag: ghcr.io/itz1508/amd-track1:latest
+Local image ID: sha256:d4c468682761d4b5e801fcafb7000c2e4e47fe0237a02a3ddef7f0be57d0e03e
+OS: linux
+Architecture: amd64
+Entrypoint: ["python", "-m", "amd_track1.entrypoint"]
+Working directory: /app
+
+The earlier rejected 3dfebe7-final image failed an in-image capability import
+because jsonschema was absent. It was not pushed and its local tag was removed.

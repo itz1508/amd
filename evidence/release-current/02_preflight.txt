@@ -1,0 +1,47 @@
+AMD Track 1 release preflight
+
+Repository: D:\Dev\amd
+Branch: main
+Pre-release HEAD: db959801fbb8bbe742358acb9f9b757921cf8ed3
+Working tree: dirty; unrelated changes preserved
+
+Command:
+  uv run python -m pytest amd_track1\tests -q -p no:cacheprovider
+Output excerpt:
+  331 collected
+  331 passed
+Exit code: 0
+Interpretation: complete Track 1 test suite passed.
+
+Command:
+  uv run python -c "validate schemas and amd_track1.capabilities registry"
+Output:
+  capabilities 8
+  errors []
+Exit code: 0
+Interpretation: production schemas parse and capability registry is valid.
+
+Command:
+  Fireworks variables removed; uv run python -m amd_track1.entrypoint
+  --input evidence/release-current/deterministic-input.json
+  --output evidence/release-current/deterministic-direct-results.json
+Output excerpt:
+  Successfully processed 3 tasks
+  det-001=69
+  det-002=20
+  det-003=30
+Exit code: 0
+Interpretation: deterministic evaluator contract works without Fireworks and
+preserves IDs and order with string answers.
+
+Source manifest:
+  evidence/release-current/04_source-manifest.json
+  production files: 53
+  experimental allowlist leaks: 0
+
+Remote preflight:
+  FIREWORKS_API_KEY present=true
+  FIREWORKS_BASE_URL present=false
+  ALLOWED_MODELS present=false
+Interpretation: real remote and mixed validation are blocked until the harness
+provides the missing base URL and allowed-model list.

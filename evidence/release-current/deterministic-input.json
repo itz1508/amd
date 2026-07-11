@@ -1,0 +1,14 @@
+[
+  {
+    "task_id": "det-001",
+    "prompt": "Calculate: 15 + 27 * 2"
+  },
+  {
+    "task_id": "det-002",
+    "prompt": "Calculate: (2 + 3) * 4"
+  },
+  {
+    "task_id": "det-003",
+    "prompt": "What is 20% of 150?"
+  }
+]

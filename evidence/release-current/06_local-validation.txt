@@ -1,0 +1,52 @@
+AMD Track 1 local image validation
+
+Image: ghcr.io/itz1508/amd-track1:f14d111-final
+
+Metadata inspection:
+  os=linux
+  arch=amd64
+  entrypoint=["python","-m","amd_track1.entrypoint"]
+  immutable/latest image IDs match
+  exit code 0
+
+Embedded environment inspection:
+  no FIREWORKS_API_KEY
+  no FIREWORKS_BASE_URL
+  no ALLOWED_MODELS
+  no local model path
+  exit code 0
+
+In-image import and asset check:
+  imports-ok
+  skills=8
+  capabilities=8
+  registry errors=[]
+  exit code 0
+
+Source/image provenance:
+  expected hashes=53
+  observed hashes=53
+  mismatches=0
+  exit code 0
+
+Mounted deterministic evaluator test:
+  input mount=/input/tasks.json:ro
+  output mount=/output
+  det-001=69
+  det-002=20
+  det-003=30
+  task count=3
+  IDs and order preserved
+  answers are strings
+  exit code 0
+
+Remote validation:
+  FIREWORKS_API_KEY present=true
+  FIREWORKS_BASE_URL present=false
+  ALLOWED_MODELS present=false
+  status=blocked_missing_harness_configuration
+
+Interpretation:
+  The committed source and local image are deterministically verified. Real
+  remote, mixed, push, anonymous pull, and public image validation are not yet
+  verified and must not be reported as passed.

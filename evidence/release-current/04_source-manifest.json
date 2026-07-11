@@ -1,0 +1,222 @@
+{
+  "schema_version": "1.0",
+  "repository": "D:\\Dev\\amd",
+  "git_commit": "f14d111b3417990bd5c33ad9d22b84609bb6ba63",
+  "production_worktree_clean": true,
+  "production_allowlist": "explicit",
+  "file_count": 53,
+  "files": [
+    {
+      "path": "amd_track1/__init__.py",
+      "sha256": "f048cde9f02f53d5dad9c68d2ac6d1e36527a831400c1de845e000781a896d9f"
+    },
+    {
+      "path": "amd_track1/arithmetic_detection.py",
+      "sha256": "b45fbbd8136823caaeb0803431ac3bbd1371a8358f0ae2da035215c3318c38fa"
+    },
+    {
+      "path": "amd_track1/capabilities/__init__.py",
+      "sha256": "61712e7014f3033b4f43afe24e16d9ade3bcf6110be4102e3cc1d61fa1c0f63e"
+    },
+    {
+      "path": "amd_track1/capabilities/definitions/code_debugging.json",
+      "sha256": "fdef6106d02774a33b49d5f42b485f6073ca3f4ff21271e08c103c502d30d208"
+    },
+    {
+      "path": "amd_track1/capabilities/definitions/code_generation.json",
+      "sha256": "c24e0d0d9d8cc46e3459e82811ccac8c0ad2a954286a6234685ee3f7b2c1ffb3"
+    },
+    {
+      "path": "amd_track1/capabilities/definitions/factual_knowledge.json",
+      "sha256": "64daef23f6bf97b8cd342ecc90f20870857297f47082455b9fbe480f3a49bd7a"
+    },
+    {
+      "path": "amd_track1/capabilities/definitions/logical_reasoning.json",
+      "sha256": "a39be2b18eaed282531680cbb8fd4afe9007a1dc1dd7e6053fe4cb46590efaa9"
+    },
+    {
+      "path": "amd_track1/capabilities/definitions/mathematical_reasoning.json",
+      "sha256": "7fe955ad06f500858629120108bdea54b2c19a77f73ac0c36ee062fd07f29696"
+    },
+    {
+      "path": "amd_track1/capabilities/definitions/named_entity_recognition.json",
+      "sha256": "cf336263e38fa9668c91d478c068d3426e51b26c96e70dc8ebb303b7d8a878ba"
+    },
+    {
+      "path": "amd_track1/capabilities/definitions/sentiment_classification.json",
+      "sha256": "28959c688bce4efebde3002f0e33e9236167321a95bfe3a27d4d43aa6ebe886d"
+    },
+    {
+      "path": "amd_track1/capabilities/definitions/text_summarisation.json",
+      "sha256": "e9555b7f64d8dc75e2ff2284a56a071303eb6e54b249530f826b3011289e79a1"
+    },
+    {
+      "path": "amd_track1/capabilities/executors.py",
+      "sha256": "a9a8d1099b8e6cda8ab60d58c84a71ed40b0295d7a84a2a1f90a6f14d95619ec"
+    },
+    {
+      "path": "amd_track1/capabilities/loader.py",
+      "sha256": "9e41e97d170970942ceff2d63b4ab6a404b660a2d70a9b1b277d6235c429290f"
+    },
+    {
+      "path": "amd_track1/capabilities/models.py",
+      "sha256": "7f9916d286b96cdd0239d2b76d65230c33e0b4b00f4ec1068bb5e77a98e8fdb0"
+    },
+    {
+      "path": "amd_track1/capabilities/registry.py",
+      "sha256": "8750c6c89823a3b5a128c214ae3d530439f5d2811720457adc8d99525bc6ea76"
+    },
+    {
+      "path": "amd_track1/capabilities/schemas/capability-definition.schema.json",
+      "sha256": "66bb65da3f50a95e39774c58968d653a729d99887fbad822a128475f848db56f"
+    },
+    {
+      "path": "amd_track1/capabilities/selector.py",
+      "sha256": "0a9ebcea6e76865507e8929ec1d7afc2b7498ebb4a52b9cd02e7ac42dcc27c64"
+    },
+    {
+      "path": "amd_track1/capabilities/validation.py",
+      "sha256": "32f64556b3c7da6fe00e4f80a0c7042c7cfdb24ace76b55b82f40776a18f77dd"
+    },
+    {
+      "path": "amd_track1/category_validator.py",
+      "sha256": "97f9a609d898c9f3fa69f2557a42133f50af6ff5282fc6e6cf76830e5789ac96"
+    },
+    {
+      "path": "amd_track1/classifier.py",
+      "sha256": "b6b9d407e81b03106c42dbe47780e2d36e4ddef56b69ccf8a581d01719770046"
+    },
+    {
+      "path": "amd_track1/difficulty_gate.py",
+      "sha256": "5007010649c2b45437fde3f40f1d92248ebc32c981c77a77a921cabd2416e5a9"
+    },
+    {
+      "path": "amd_track1/Dockerfile",
+      "sha256": "d146065d195304c8fe80598a82c8574eabed895007de14341e9a913f3c9b0f6d"
+    },
+    {
+      "path": "amd_track1/entrypoint.py",
+      "sha256": "32297139e6abd6b5d12fc890229afbd6c454ffe4f6c8e7b245435fc6f3296da3"
+    },
+    {
+      "path": "amd_track1/executor.py",
+      "sha256": "c129dad6f2eaf8e641f094a4a4f5e703b5b538e3f792a818af9b4e2b1a00fa98"
+    },
+    {
+      "path": "amd_track1/input_validation.py",
+      "sha256": "ca38276ef60e69e5ae10f3296b9b794b19ecddcf0456a9288d00ffd94831d101"
+    },
+    {
+      "path": "amd_track1/local_client.py",
+      "sha256": "e1b6a6ab6793fdaf6492e064d0a0bb3d3891298b9fdf945b547907df4da071a5"
+    },
+    {
+      "path": "amd_track1/model_registry.py",
+      "sha256": "3e7e96483c92bb84f3c0cb1e0e66d7c364006cd8fb0d6ed6758805ee4db48a17"
+    },
+    {
+      "path": "amd_track1/model_roles.py",
+      "sha256": "f67c626cbffc617dfa180b6d6e921d9738464d8eab2f45fd054be9d326f35983"
+    },
+    {
+      "path": "amd_track1/prompt_builder.py",
+      "sha256": "8c1ac677f5c62cc698f34c1bbf46424ae06f69e9f9fc62e61fac966708397e76"
+    },
+    {
+      "path": "amd_track1/remote_mode.py",
+      "sha256": "a4f11de22460dc4974e83ff951c21279024c502798513f604a7ea41803c411ee"
+    },
+    {
+      "path": "amd_track1/requirements.txt",
+      "sha256": "93f2e04a6cff644b6f6c3058a9b139368dbc1f685fc2c52b5472dbfa57a65d59"
+    },
+    {
+      "path": "amd_track1/retry_policy.py",
+      "sha256": "af20cd9f52fd808a2382b15c7fea592a1698146a5cde6cc08d0993834fc92c1e"
+    },
+    {
+      "path": "amd_track1/router.py",
+      "sha256": "c34e8d832ad8b4c49209b23884911ede342dd06b4a1db52460fecc3d95efe0dc"
+    },
+    {
+      "path": "amd_track1/schemas/task-input.schema.json",
+      "sha256": "9f341e9bdffaead6c5d62946d26916f23ea14891d87b1fee26d2c0a26959cc00"
+    },
+    {
+      "path": "amd_track1/schemas/task-result.schema.json",
+      "sha256": "cf9622f6773109d97e633589910c6d8297a6ee7c3b0f1f8e659152e989991d18"
+    },
+    {
+      "path": "amd_track1/skills/code_debugging.json",
+      "sha256": "a0024cf863558b9ea54a2a10f7aa83793e8592d97b697dd35033d687d7459669"
+    },
+    {
+      "path": "amd_track1/skills/code_generation.json",
+      "sha256": "7fce95bf446ffe88ad60a442a2f7acb10eb1ed69327655c0c81f50297fa19c01"
+    },
+    {
+      "path": "amd_track1/skills/factual_knowledge.json",
+      "sha256": "5e7a8880f0e541136e12d15a735c2155872c885f2db828b31ea5f03de621f1fb"
+    },
+    {
+      "path": "amd_track1/skills/logical_reasoning.json",
+      "sha256": "f68023c373ce386819a9e7d4842dbe198a24b241340a2c9a48c09c5a60bc39ad"
+    },
+    {
+      "path": "amd_track1/skills/mathematical_reasoning.json",
+      "sha256": "8208072ec72f3d21c3d51f1e555dec65143ccb11f99840111889dbb9155ddc41"
+    },
+    {
+      "path": "amd_track1/skills/named_entity_recognition.json",
+      "sha256": "1b0a7ec8a4dfb6cce2abbee1d0c9954a1ba02b6a2ac309c58dfed089be13938d"
+    },
+    {
+      "path": "amd_track1/skills/sentiment_classification.json",
+      "sha256": "5cf8dfb5e1f9d1716ccbd9338d58e92c9cefca7043d93180988596a8afa96a8c"
+    },
+    {
+      "path": "amd_track1/skills/text_summarisation.json",
+      "sha256": "c0044ff0fe410061a4f6df1ad45e8d7c2875c92158087a72a842de38c6648be6"
+    },
+    {
+      "path": "amd_track1/tools/__init__.py",
+      "sha256": "104dab0e8c7a8ebc0da6b5b2b51ae509d93538dc5eaf82b1fb447ad860fd9a16"
+    },
+    {
+      "path": "amd_track1/tools/arithmetic_evaluator.py",
+      "sha256": "284ec22f3d4517e8832618e8873dd30633531459c550cc2db8bc8145437d5898"
+    },
+    {
+      "path": "amd_track1/tools/code_checker.py",
+      "sha256": "61ca93da80d6fd9e22accc5d7e929f3736c1dfb041c54cb4049970610720333c"
+    },
+    {
+      "path": "amd_track1/tools/json_validator.py",
+      "sha256": "6d84a21ff1aab45aaca35e7a4bf378a0c22811296d1a88e330a99b581d516200"
+    },
+    {
+      "path": "amd_track1/tools/logic_checker.py",
+      "sha256": "41f02ecb07608d1d6f85100841195b4b8f00ba18742061a52646f171f51a8051"
+    },
+    {
+      "path": "amd_track1/tools/ner_validator.py",
+      "sha256": "4ba488c037a8fc82b2e2bb895e0de0b18e8fb68da1654f8ac3004a0df4ecfe2f"
+    },
+    {
+      "path": "amd_track1/tools/sentiment_validator.py",
+      "sha256": "8ee0c8ce3cc9d080c5bc8fcdba0207da01852e3e51f71abe18963fb7a679e10c"
+    },
+    {
+      "path": "amd_track1/tools/submission_validator.py",
+      "sha256": "61326ecba8d1efed035dfb8f12bccc70068d8600078c7ddc97191c6d15a5f88c"
+    },
+    {
+      "path": "amd_track1/tools/summary_checker.py",
+      "sha256": "e5eac1dd87a330ec109e929ab7d76f01f7e8dc0a633efc98a92d68a700c45878"
+    },
+    {
+      "path": "amd_track1/verifier.py",
+      "sha256": "f2b1325959365c281a5f3ddca32be50b018ae1bda35054b26764cb0862fd9e05"
+    }
+  ]
+}
