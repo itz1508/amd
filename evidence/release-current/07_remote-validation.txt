@@ -1,26 +1,25 @@
 AMD Track 1 remote provider validation
 
-Provided endpoint:
-  https://inference.do-ai.run/v1/chat/completions
-
-Derived runtime mapping:
-  FIREWORKS_BASE_URL=https://inference.do-ai.run/v1
-  ALLOWED_MODELS=gpt-4o
-  FIREWORKS_API_KEY must contain the supplied MODEL_ACCESS_KEY value
+Harness contract:
+  FIREWORKS_API_KEY is injected by the evaluator.
+  FIREWORKS_BASE_URL is injected by the evaluator.
+  ALLOWED_MODELS is injected by the evaluator as exact comma-separated model IDs.
+  No submitted default URL, key, or model ID is permitted.
 
 Environment presence:
   MODEL_ACCESS_KEY present=false
   FIREWORKS_API_KEY present=true
 
-Live direct probe:
+Exploratory direct probe, not evaluator proof:
   endpoint=https://inference.do-ai.run/v1/chat/completions
-  model=gpt-4o
-  credential used=existing FIREWORKS_API_KEY value
+  model=gpt-4o from a user-provided example
+  credential used=existing local FIREWORKS_API_KEY value
   HTTP status=401 Unauthorized
   exit code=1
 
 Interpretation:
-  The endpoint is reachable, but the existing FIREWORKS_API_KEY is not accepted
-  as the required MODEL_ACCESS_KEY. No credential value was logged. Remote-only
-  and mixed container validation remain blocked until the actual event-provided
-  MODEL_ACCESS_KEY is available.
+  This 401 does not evaluate the submission harness contract. The submitted
+  runtime must not use this example endpoint, model, or MODEL_ACCESS_KEY mapping.
+  No credential value was logged. Local remote-only and mixed validation remain
+  unverified because the evaluator-provided FIREWORKS_BASE_URL and
+  ALLOWED_MODELS are not available in the current shell.
