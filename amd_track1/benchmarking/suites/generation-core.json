@@ -1,0 +1,14 @@
+{
+  "suite_id": "generation-core",
+  "version": "1.0.0",
+  "capability_ids": ["code_generation"],
+  "description": "Code synthesis from bounded specification tests.",
+  "fixture_path": "fixtures/generation-core.jsonl",
+  "scorer_ids": ["exact_match", "normalized_match"],
+  "repetitions": 3,
+  "warmup_runs": 0,
+  "timeout_ms": 10000,
+  "random_seed": 20260711,
+  "environment_requirements": {"network": "optional", "architecture": "linux/amd64"},
+  "metrics": ["accuracy", "latency_ms", "tokens_input", "tokens_output", "remote_tokens", "estimated_cost", "failure_rate"]
+}

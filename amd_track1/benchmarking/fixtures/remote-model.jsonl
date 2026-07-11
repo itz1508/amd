@@ -1,0 +1,1 @@
+{"fixture_id": "remote-model-001", "suite_id": "remote-model", "task_category": "code_generation", "prompt": "Write a Python function to reverse a string.", "expected_result": "def reverse(s): return s[::-1]", "grading_method": "normalized_match", "difficulty": "basic", "tags": ["remote_eligible"], "allowed_execution_modes": ["local_model", "remote_model"]}\n

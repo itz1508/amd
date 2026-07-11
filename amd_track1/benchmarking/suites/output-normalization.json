@@ -1,0 +1,14 @@
+{
+  "suite_id": "output-normalization",
+  "version": "1.0.0",
+  "capability_ids": ["mathematical_reasoning", "sentiment_classification", "named_entity_recognition"],
+  "description": "Output normalization: whitespace, case, punctuation, entity deduplication.",
+  "fixture_path": "fixtures/output-normalization.jsonl",
+  "scorer_ids": ["normalized_match"],
+  "repetitions": 3,
+  "warmup_runs": 0,
+  "timeout_ms": 10000,
+  "random_seed": 20260711,
+  "environment_requirements": {"network": "optional", "architecture": "linux/amd64"},
+  "metrics": ["accuracy", "normalized_match_accuracy", "failure_rate"]
+}

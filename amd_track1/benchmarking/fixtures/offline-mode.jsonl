@@ -1,0 +1,1 @@
+{"fixture_id": "offline-mode-001", "suite_id": "offline-mode", "task_category": "mathematical_reasoning", "prompt": "What is 8 times 7?", "expected_result": 56, "grading_method": "numeric_equivalence", "difficulty": "basic", "tags": ["offline", "deterministic"], "allowed_execution_modes": ["deterministic_tool"]}\n

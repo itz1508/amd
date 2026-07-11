@@ -1,0 +1,1 @@
+{"fixture_id": "logic-core-001", "suite_id": "logic-core", "task_category": "logical_reasoning", "prompt": "All birds can fly. A penguin is a bird. Can a penguin fly?", "expected_result": "false", "grading_method": "normalized_match", "difficulty": "basic", "tags": ["syllogism", "deterministic"], "allowed_execution_modes": ["deterministic_tool", "local_model", "remote_model"]}\n

@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "system": "amd_track1",
+  "canonical_repository": "D:\\Dev\\amd",
+  "canonical_package": "amd_track1",
+  "public_interface": {
+    "type": "cli",
+    "command": "python -m amd_track1.entrypoint",
+    "python_executable": "python",
+    "pythonpath_required": "D:\\Dev\\amd",
+    "arguments": ["--input", "--output"],
+    "required_environment_variables": [
+      "FIREWORKS_API_KEY",
+      "FIREWORKS_BASE_URL",
+      "ALLOWED_MODELS"
+    ],
+    "input_schema_version": "1.0",
+    "output_schema_version": "1.0",
+    "supported_exit_codes": {
+      "0": "success",
+      "nonzero": "failure"
+    }
+  },
+  "owned_components": [
+    "amd_track1.executor",
+    "amd_track1.router",
+    "amd_track1.verifier",
+    "amd_track1.validators",
+    "amd_track1.model_roles",
+    "amd_track1.client",
+    "amd_track1.classifier"
+  ],
+  "allowed_consumers": [],
+  "prohibited_duplicate_owners": [
+    "D:\\Dev\\Edge"
+  ],
+  "prohibited_private_imports": [
+    "amd_track1.executor",
+    "amd_track1.router",
+    "amd_track1.verifier",
+    "amd_track1.validators",
+    "amd_track1.model_roles",
+    "amd_track1.client",
+    "amd_track1.classifier"
+  ]
+}

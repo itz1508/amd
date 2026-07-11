@@ -1,0 +1,1 @@
+{"fixture_id": "error-handling-001", "suite_id": "error-handling", "task_category": "mathematical_reasoning", "prompt": "What is 1 divided by 0?", "expected_result": "error", "grading_method": "error_classification", "difficulty": "basic", "tags": ["permanent_error"], "allowed_execution_modes": ["deterministic_tool"]}\n

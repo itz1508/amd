@@ -1,0 +1,14 @@
+{
+  "suite_id": "container-smoke",
+  "version": "1.0.0",
+  "capability_ids": ["mathematical_reasoning", "factual_knowledge", "sentiment_classification"],
+  "description": "Container image smoke test with deterministic and lightweight tasks.",
+  "fixture_path": "fixtures/container-smoke.jsonl",
+  "scorer_ids": ["exact_match", "normalized_match"],
+  "repetitions": 1,
+  "warmup_runs": 0,
+  "timeout_ms": 60000,
+  "random_seed": 20260711,
+  "environment_requirements": {"network": "optional", "architecture": "linux/amd64", "container": true},
+  "metrics": ["accuracy", "latency_ms", "failure_rate"]
+}

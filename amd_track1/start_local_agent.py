@@ -16,7 +16,14 @@ import signal
 def main():
     """Start llama server and run the agent."""
     # Find model path
-    model_path = os.environ.get('LOCAL_MODEL_PATH', '/models/qwen-q4_k_m.gguf')
+    model_path = os.environ.get('LOCAL_MODEL_PATH')
+    if not model_path:
+        raise RuntimeError('LOCAL_MODEL_PATH not set')
+    server_binary = os.environ.get('LOCAL_SERVER_BINARY')
+    host = os.environ.get('LOCAL_SERVER_HOST')
+    port = os.environ.get('LOCAL_SERVER_PORT')
+    if not server_binary or not host or not port:
+        raise RuntimeError('LOCAL_SERVER_BINARY, LOCAL_SERVER_HOST, and LOCAL_SERVER_PORT are required')
     
     # Check if model exists
     if not os.path.exists(model_path):
@@ -30,10 +37,10 @@ def main():
     server_proc = None
     try:
         cmd = [
-            "/usr/local/bin/llama-server",
+            server_binary,
             "-m", model_path,
-            "--host", "127.0.0.1",
-            "--port", "8080",
+            "--host", host,
+            "--port", port,
             "-c", "4096",
             "--no-webui",
         ]
@@ -67,7 +74,7 @@ def main():
         import urllib.request
         for i in range(30):  # Wait up to 30 seconds
             try:
-                urllib.request.urlopen("http://127.0.0.1:8080/v1/models", timeout=1)
+                urllib.request.urlopen(f"http://{host}:{port}/v1/models", timeout=1)
                 print("Server is responding", file=sys.stderr)
                 break
             except:
@@ -76,7 +83,7 @@ def main():
             print("Warning: Server may not be responding yet", file=sys.stderr)
         
         # Set environment for agent
-        os.environ['LOCAL_MODEL_URL'] = 'http://127.0.0.1:8080'
+        os.environ.setdefault('LOCAL_MODEL_URL', f'http://{host}:{port}')
         
         # Run the agent
         agent_proc = subprocess.run(

@@ -1,0 +1,14 @@
+{
+  "suite_id": "routing-core",
+  "version": "1.0.0",
+  "capability_ids": ["mathematical_reasoning", "factual_knowledge", "sentiment_classification", "text_summarisation", "named_entity_recognition", "code_debugging", "logical_reasoning", "code_generation"],
+  "description": "Routing decisions: deterministic eligibility, model escalation, unsupported categories, malformed tasks.",
+  "fixture_path": "fixtures/routing-core.jsonl",
+  "scorer_ids": ["routing_correctness"],
+  "repetitions": 3,
+  "warmup_runs": 0,
+  "timeout_ms": 10000,
+  "random_seed": 20260711,
+  "environment_requirements": {"network": "optional", "architecture": "linux/amd64"},
+  "metrics": ["accuracy", "latency_ms", "tokens_input", "tokens_output", "remote_tokens", "estimated_cost", "failure_rate", "false_routing_rate"]
+}

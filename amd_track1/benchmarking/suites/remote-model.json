@@ -1,0 +1,14 @@
+{
+  "suite_id": "remote-model",
+  "version": "1.0.0",
+  "capability_ids": ["mathematical_reasoning", "factual_knowledge", "code_generation"],
+  "description": "Remote-model execution, allowlist enforcement, and token accounting.",
+  "fixture_path": "fixtures/remote-model.jsonl",
+  "scorer_ids": ["exact_match", "normalized_match"],
+  "repetitions": 3,
+  "warmup_runs": 0,
+  "timeout_ms": 30000,
+  "random_seed": 20260711,
+  "environment_requirements": {"network": "required", "architecture": "linux/amd64"},
+  "metrics": ["accuracy", "latency_ms", "remote_input_tokens", "remote_output_tokens", "remote_tokens", "estimated_cost", "model_escalation_rate"]
+}

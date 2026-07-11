@@ -1,0 +1,30 @@
+{
+  "suite_id": "math-core",
+  "version": "1.0.0",
+  "capability_ids": [
+    "mathematical_reasoning"
+  ],
+  "description": "Core deterministic and model-based arithmetic tests.",
+  "fixture_path": "fixtures/math-core.jsonl",
+  "scorer_ids": [
+    "exact_match",
+    "numeric_equivalence"
+  ],
+  "repetitions": 5,
+  "warmup_runs": 1,
+  "timeout_ms": 10000,
+  "random_seed": 20260711,
+  "environment_requirements": {
+    "network": "optional",
+    "architecture": "linux/amd64"
+  },
+  "metrics": [
+    "accuracy",
+    "latency_ms",
+    "tokens_input",
+    "tokens_output",
+    "remote_tokens",
+    "estimated_cost",
+    "failure_rate"
+  ]
+}

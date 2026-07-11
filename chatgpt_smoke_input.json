@@ -1,0 +1,21 @@
+[
+  {"task_id": "mix-001", "prompt": "Calculate: 15 + 27 * 2"},
+  {"task_id": "mix-002", "prompt": "What is 20% of 150?"},
+  {"task_id": "mix-003", "prompt": "Calculate: ((8 + 4) * 3 - 6) / 5"},
+  {"task_id": "mix-004", "prompt": "Classify the sentiment as positive, negative, or neutral: The update fixed the crash, but startup is still slightly slow."},
+  {"task_id": "mix-005", "prompt": "Classify the sentiment as positive, negative, or neutral: The deployment completed."},
+  {"task_id": "mix-006", "prompt": "Extract all named entities and their types from this sentence: NVIDIA opened a new office in Austin, Texas, on Monday."},
+  {"task_id": "mix-007", "prompt": "Extract all named entities and their types: Python 3.13 was discussed by Alice at PyCon US in Pittsburgh."},
+  {"task_id": "mix-008", "prompt": "Summarize in one sentence: The service received 2,000 requests. Ninety-eight percent completed successfully. Forty requests failed because an upstream API timed out. Retrying those requests later succeeded."},
+  {"task_id": "mix-009", "prompt": "Summarize in no more than 20 words: Local deterministic execution costs no remote tokens, while failed or complex tasks may be sent to Fireworks for completion."},
+  {"task_id": "mix-010", "prompt": "Debug this Python function and return the corrected code only:\n\ndef total(values):\n    result = 0\n    for value in values\n        result += value\n    return results"},
+  {"task_id": "mix-011", "prompt": "The code fails on line 12 when count is 0. Fix the bug:\n\ndef average(total, count):\n    return total / count"},
+  {"task_id": "mix-012", "prompt": "Write a Python function named unique_in_order that returns unique items while preserving their first-seen order. Return code only."},
+  {"task_id": "mix-013", "prompt": "Write a Python function named safe_int(value, default=0) that returns int(value), but returns default when conversion fails. Return code only."},
+  {"task_id": "mix-014", "prompt": "All build agents are services. No service is a human. Can any build agent be a human? Reply yes or no and give one sentence of reasoning."},
+  {"task_id": "mix-015", "prompt": "If deployment A happens before B, and B happens before C, which deployment must happen first?"},
+  {"task_id": "mix-016", "prompt": "A process may run only if approval is true and validation has passed. Approval is true, but validation failed. May the process run? Reply yes or no."},
+  {"task_id": "mix-017", "prompt": "What protocol is normally used to securely browse websites?"},
+  {"task_id": "mix-018", "prompt": "What is the purpose of a SHA-256 hash in software verification? Answer in one sentence."},
+  {"task_id": "mix-019", "prompt": "The program reports error code 404 after calculating 12 * 8. Diagnose the HTTP problem, not the arithmetic."}
+]

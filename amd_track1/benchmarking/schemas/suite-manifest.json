@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Benchmark Suite Manifest",
+  "type": "object",
+  "required": ["suite_id", "capability_ids", "fixture_path"],
+  "properties": {
+    "suite_id": {"type": "string"},
+    "capability_ids": {"type": "array", "items": {"type": "string"}},
+    "fixture_path": {"type": "string"},
+    "repetitions": {"type": "integer"},
+    "random_seed": {"type": "integer"}
+  }
+}

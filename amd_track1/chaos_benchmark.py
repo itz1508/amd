@@ -44,14 +44,26 @@ def run_command(cmd: List[str], timeout: int = 600) -> Tuple[int, str, str]:
         return -1, "", str(e)
 
 
+def temp_dir():
+    """Create a Docker Desktop friendly temp directory."""
+    base_value = os.environ.get("AMD_BENCHMARK_TEMP")
+    base = Path(base_value) if base_value else None
+    if base and base.exists():
+        return tempfile.TemporaryDirectory(dir=str(base))
+    return tempfile.TemporaryDirectory()
+
+
 def check_docker_available() -> bool:
     """Check if Docker is available."""
     code, _, _ = run_command(["docker", "--version"])
     return code == 0
 
 
-def build_image(image_tag: str, dockerfile: str = "Dockerfile.local-qwen") -> Tuple[bool, str]:
-    """Build the Docker image for local-qwen variant."""
+def build_image(image_tag: str, dockerfile: Optional[str] = None) -> Tuple[bool, str]:
+    """Build the image selected by the caller/environment."""
+    dockerfile = dockerfile or os.environ.get("AMD_DOCKERFILE")
+    if not dockerfile:
+        return False, "AMD_DOCKERFILE is required"
     if not check_docker_available():
         return False, "Docker not available"
     
@@ -100,10 +112,10 @@ def push_image(image_tag: str) -> Tuple[bool, str]:
     return False, f"Push failed (may require auth): {stderr[:200]}"
 
 
-def pull_image(image_tag: str) -> Tuple[bool, str]:
+def pull_image(image_tag: str, remove_local: bool = True) -> Tuple[bool, str]:
     """Test anonymous pull of image."""
-    # Remove locally first
-    run_command(["docker", "rmi", "-f", image_tag], timeout=30)
+    if remove_local:
+        run_command(["docker", "rmi", "-f", image_tag], timeout=30)
     
     cmd = ["docker", "pull", image_tag]
     code, stdout, stderr = run_command(cmd, timeout=180)
@@ -113,12 +125,33 @@ def pull_image(image_tag: str) -> Tuple[bool, str]:
     return False, f"Pull failed: {stderr[:200]}"
 
 
+def load_track1_tasks(path: str) -> List[Dict[str, str]]:
+    """Load Track 1 tasks from JSON array or JSONL chaos/eval files."""
+    text = Path(path).read_text(encoding="utf-8").strip()
+    if not text:
+        return []
+
+    if text.startswith("["):
+        raw_rows = json.loads(text)
+    else:
+        raw_rows = [json.loads(line) for line in text.splitlines() if line.strip()]
+
+    tasks = []
+    for index, row in enumerate(raw_rows):
+        task_id = row.get("task_id") or f"chaos_{index:04d}"
+        prompt = row.get("prompt") or row.get("input") or row.get("question")
+        if not prompt:
+            continue
+        tasks.append({"task_id": task_id, "prompt": prompt})
+    return tasks
+
+
 def run_smoke_test(image_tag: str) -> Tuple[bool, float, List[str]]:
     """Run smoke test with empty tasks to verify container starts."""
     errors = []
     
     # Create temp input/output
-    with tempfile.TemporaryDirectory() as tmpdir:
+    with temp_dir() as tmpdir:
         input_path = Path(tmpdir) / "input" / "tasks.json"
         output_path = Path(tmpdir) / "output" / "results.json"
         input_path.parent.mkdir(parents=True)
@@ -128,12 +161,21 @@ def run_smoke_test(image_tag: str) -> Tuple[bool, float, List[str]]:
         with open(input_path, 'w') as f:
             json.dump([], f)
         
+        required_env = {
+            "FIREWORKS_API_KEY": os.environ.get("BENCH_FIREWORKS_API_KEY"),
+            "FIREWORKS_BASE_URL": os.environ.get("BENCH_FIREWORKS_BASE_URL"),
+            "ALLOWED_MODELS": os.environ.get("BENCH_ALLOWED_MODELS"),
+        }
+        if not all(required_env.values()):
+            return False, 0.0, ["BENCH_FIREWORKS_API_KEY, BENCH_FIREWORKS_BASE_URL, and BENCH_ALLOWED_MODELS are required"]
         cmd = [
             "docker", "run", "--rm",
             "-v", f"{input_path.parent}:/input:rw",
             "-v", f"{output_path.parent}:/output:rw",
-            image_tag
         ]
+        for key, value in required_env.items():
+            cmd.extend(["-e", f"{key}={value}"])
+        cmd.append(image_tag)
         
         start = time.time()
         code, stdout, stderr = run_command(cmd, timeout=60)
@@ -160,16 +202,15 @@ def run_chaos_test(image_tag: str, chaos_file: str) -> Tuple[bool, float, Dict]:
     }
     
     # Create temp input/output
-    with tempfile.TemporaryDirectory() as tmpdir:
+    with temp_dir() as tmpdir:
         input_path = Path(tmpdir) / "input" / "tasks.json"
         output_path = Path(tmpdir) / "output" / "results.json"
         input_path.parent.mkdir(parents=True)
         output_path.parent.mkdir(parents=True)
         
-        # Copy chaos file
+        # Convert chaos/eval file into Track 1 input shape.
         if os.path.exists(chaos_file):
-            with open(chaos_file, 'r') as f:
-                tasks = json.load(f)
+            tasks = load_track1_tasks(chaos_file)
             with open(input_path, 'w') as f:
                 json.dump(tasks, f)
             stats["total_tasks"] = len(tasks)
@@ -182,10 +223,12 @@ def run_chaos_test(image_tag: str, chaos_file: str) -> Tuple[bool, float, Dict]:
         
         # Disable Fireworks for local-first test
         env = {
-            "AMD_REMOTE_MODE": "off",
-            "LOCAL_MODEL_URL": "http://127.0.0.1:8080",
-            "LOCAL_MODEL_ID": "local-qwen",
+            "FIREWORKS_API_KEY": os.environ.get("BENCH_FIREWORKS_API_KEY"),
+            "FIREWORKS_BASE_URL": os.environ.get("BENCH_FIREWORKS_BASE_URL"),
+            "ALLOWED_MODELS": os.environ.get("BENCH_ALLOWED_MODELS"),
         }
+        if not all(env.values()):
+            return False, 0.0, {**stats, "error": "BENCH_FIREWORKS_API_KEY, BENCH_FIREWORKS_BASE_URL, and BENCH_ALLOWED_MODELS are required"}
         
         cmd = [
             "docker", "run", "--rm",
@@ -209,8 +252,8 @@ def run_chaos_test(image_tag: str, chaos_file: str) -> Tuple[bool, float, Dict]:
             stats["failed"] = stats["total_tasks"] - stats["successful"]
         else:
             stats["failed"] = stats["total_tasks"]
-        
-        return code == 0, elapsed, stats
+
+        return code == 0 and stats["successful"] == stats["total_tasks"], elapsed, stats
 
 
 def generate_chaos_tasks(count: int = 260) -> List[Dict[str, str]]:
@@ -261,7 +304,7 @@ def generate_prompt_for_category(category: str, index: int) -> str:
 
 def main():
     parser = argparse.ArgumentParser(description="Chaos benchmark for AMD Track 1")
-    parser.add_argument("--image-tag", default="ghcr.io/itz1508/amd-track1:local-qwen-test",
+    parser.add_argument("--image-tag", default=os.environ.get("AMD_IMAGE_TAG"),
                         help="Docker image tag to test")
     parser.add_argument("--chaos-file", default=None,
                         help="Path to chaos JSONL file")
@@ -269,8 +312,12 @@ def main():
                         help="Skip image build, assume exists")
     parser.add_argument("--skip-push", action="store_true",
                         help="Skip image push")
+    parser.add_argument("--skip-pull", action="store_true",
+                        help="Skip anonymous pull check for local-only benchmarks")
     
     args = parser.parse_args()
+    if not args.image_tag:
+        parser.error("--image-tag or AMD_IMAGE_TAG is required")
     
     print("=" * 60)
     print("AMD Track 1 Local-Qwen Chaos Benchmark")
@@ -305,10 +352,14 @@ def main():
         results.append(("push", True))
     
     # Test 4: Pull image (anonymous)
-    print("\n[4/7] Testing anonymous pull...")
-    success, msg = pull_image(args.image_tag)
-    print(f"  {'✓' if success else '✗'} {msg}")
-    results.append(("pull", success))
+    if args.skip_pull:
+        print("\n[4/7] Skipping anonymous pull...")
+        results.append(("pull", True))
+    else:
+        print("\n[4/7] Testing anonymous pull...")
+        success, msg = pull_image(args.image_tag, remove_local=not args.skip_push)
+        print(f"  {'✓' if success else '✗'} {msg}")
+        results.append(("pull", success))
     
     # Test 5: Smoke test
     print("\n[5/7] Running smoke test (empty tasks)...")

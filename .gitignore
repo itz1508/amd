@@ -77,3 +77,9 @@ D:\Temp\amd/
 .runs/
 .ssh/
 evidence/
+
+# Strategy-only files excluded from public repo
+amd_track1/tests/
+amd_track1/benchmarks/
+amd_track1/VERIFICATION_POLICY.md
+Source_Of_Truth.md

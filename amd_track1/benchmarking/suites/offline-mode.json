@@ -1,0 +1,14 @@
+{
+  "suite_id": "offline-mode",
+  "version": "1.0.0",
+  "capability_ids": ["mathematical_reasoning", "sentiment_classification", "logical_reasoning"],
+  "description": "Deterministic-only execution with remote calls prohibited.",
+  "fixture_path": "fixtures/offline-mode.jsonl",
+  "scorer_ids": ["exact_match", "normalized_match"],
+  "repetitions": 3,
+  "warmup_runs": 0,
+  "timeout_ms": 10000,
+  "random_seed": 20260711,
+  "environment_requirements": {"network": "restricted", "architecture": "linux/amd64"},
+  "metrics": ["accuracy", "failure_rate", "remote_call_count", "deterministic_tool_utilization"]
+}

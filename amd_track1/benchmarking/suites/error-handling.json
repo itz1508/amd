@@ -1,0 +1,14 @@
+{
+  "suite_id": "error-handling",
+  "version": "1.0.0",
+  "capability_ids": ["mathematical_reasoning", "factual_knowledge", "sentiment_classification"],
+  "description": "Transient, permanent, malformed-output, and validator-rejection behavior.",
+  "fixture_path": "fixtures/error-handling.jsonl",
+  "scorer_ids": ["error_classification"],
+  "repetitions": 3,
+  "warmup_runs": 0,
+  "timeout_ms": 10000,
+  "random_seed": 20260711,
+  "environment_requirements": {"network": "optional", "architecture": "linux/amd64"},
+  "metrics": ["failure_rate", "transient_error_rate", "permanent_error_rate", "malformed_output_rate", "validator_rejection_rate"]
+}

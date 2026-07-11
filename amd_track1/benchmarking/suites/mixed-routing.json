@@ -1,0 +1,14 @@
+{
+  "suite_id": "mixed-routing",
+  "version": "1.0.0",
+  "capability_ids": ["mathematical_reasoning", "factual_knowledge", "sentiment_classification", "text_summarisation", "named_entity_recognition", "code_debugging", "logical_reasoning", "code_generation"],
+  "description": "Mixed workload with deterministic, local-model, and remote-model routing.",
+  "fixture_path": "fixtures/mixed-routing.jsonl",
+  "scorer_ids": ["routing_correctness", "exact_match"],
+  "repetitions": 3,
+  "warmup_runs": 0,
+  "timeout_ms": 30000,
+  "random_seed": 20260711,
+  "environment_requirements": {"network": "optional", "architecture": "linux/amd64"},
+  "metrics": ["accuracy", "routing_accuracy", "deterministic_tool_utilization", "model_escalation_rate", "latency_ms", "remote_tokens", "estimated_cost"]
+}

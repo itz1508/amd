@@ -30,10 +30,19 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
+    tar \
+    gzip \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/* \
-    && curl -L -o /usr/local/bin/llama-server \
-       https://github.com/ggerganov/llama.cpp/releases/download/b5600/llama-server-avx \
-    && chmod +x /usr/local/bin/llama-server
+    && curl -L -o /tmp/llama-bin-ubuntu-x64.tar.gz \
+       https://github.com/ggml-org/llama.cpp/releases/download/b9956/llama-b9956-bin-ubuntu-x64.tar.gz \
+    && mkdir -p /opt/llama \
+    && tar -xzf /tmp/llama-bin-ubuntu-x64.tar.gz -C /opt/llama \
+    && find /opt/llama -type f -name llama-server -exec chmod +x {} \; \
+    && find /opt/llama -type f -name llama-server -exec ln -sf {} /usr/local/bin/llama-server \; \
+    && find /opt/llama -type d \( -name lib -o -name bin \) > /etc/ld.so.conf.d/llama.conf \
+    && ldconfig \
+    && rm -f /tmp/llama-bin-ubuntu-x64.tar.gz
 
 # Copy Python packages from builder
 COPY --from=builder /root/.local /root/.local
@@ -47,22 +56,13 @@ RUN mkdir -p /input /output /models && \
 COPY amd_track1 /app/amd_track1
 COPY amd_track1/start_local_agent.py /app/start_local_agent.py
 
-# Download small Qwen model (Q4_K_M quantized ~4GB) - placeholder path
-# In production, this would be downloaded or mounted at runtime
-# RUN wget -O /models/qwen-q4_k_m.gguf https://huggingface.co/Qwen/Qwen1.5-7B-GGUF/resolve/main/qwen1.5-7b-q4_k_m.gguf
+# The model is supplied at runtime through LOCAL_MODEL_PATH.
 
-# Set environment variables
+# Runtime settings are injected by the caller; no model, endpoint, path, or
+# mode is baked into this experimental image.
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PIP_NO_CACHE_DIR=1 \
-    # Default local model settings
-    LOCAL_MODEL_URL=http://127.0.0.1:8080 \
-    LOCAL_MODEL_ID=local-qwen \
-    LOCAL_MODEL_PATH=/models/qwen-q4_k_m.gguf \
-    # Default mode: local-first with Fireworks rescue
-    AMD_REMOTE_MODE=rescue \
-    # Hard per-task timeout (seconds)
-    AMD_TASK_TIMEOUT=25.0
+    PIP_NO_CACHE_DIR=1
 
 # Run the package from its parent so relative imports resolve correctly.
 WORKDIR /app

@@ -1,0 +1,5 @@
+[
+  {"task_id": "mix-001", "prompt": "Calculate: 15 + 27 * 2"},
+  {"task_id": "mix-002", "prompt": "What is 20% of 150?"},
+  {"task_id": "mix-003", "prompt": "Calculate: ((8 + 4) * 3 - 6) / 5"}
+]

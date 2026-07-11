@@ -1,0 +1,1 @@
+"""Architecture tests for AMD canonical integration."""
