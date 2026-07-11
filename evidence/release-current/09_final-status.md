@@ -23,9 +23,14 @@ Status: `amd_image_verified_locally`
 
 ## Remaining blocker
 
-The current process has `FIREWORKS_API_KEY`, but does not have
-`FIREWORKS_BASE_URL` or `ALLOWED_MODELS`. A real allowed-model task cannot be
-run without those harness-provided values.
+The endpoint and model are now known:
+
+- `FIREWORKS_BASE_URL=https://inference.do-ai.run/v1`
+- `ALLOWED_MODELS=gpt-4o`
+
+The endpoint is reachable, but a live request using the existing
+`FIREWORKS_API_KEY` returned HTTP 401. `MODEL_ACCESS_KEY` is absent from the
+current environment, so the required credential is still unavailable.
 
 Do not report `submission_ready` until real remote and mixed tests pass, both
 tags are pushed with matching digests, anonymous pulls succeed, public hashes
