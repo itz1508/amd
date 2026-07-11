@@ -1,0 +1,78 @@
+# AMD Track 1 General-Purpose AI Agent - Local Qwen Variant
+# Multi-stage build for minimal image size with embedded Qwen model
+
+# Stage 1: Build stage
+FROM python:3.11-slim as builder
+
+WORKDIR /app
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    ca-certificates \
+    git \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
+COPY amd_track1/requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir --user -r requirements.txt
+
+# Stage 2: Runtime stage
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install llama.cpp server for local model inference
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -L -o /usr/local/bin/llama-server \
+       https://github.com/ggerganov/llama.cpp/releases/download/b5600/llama-server-avx \
+    && chmod +x /usr/local/bin/llama-server
+
+# Copy Python packages from builder
+COPY --from=builder /root/.local /root/.local
+ENV PATH=/root/.local/bin:$PATH
+
+# Create directories for input/output/models
+RUN mkdir -p /input /output /models && \
+    chmod 755 /input /output /models
+
+# Copy application code and wrapper
+COPY amd_track1 /app/amd_track1
+COPY amd_track1/start_local_agent.py /app/start_local_agent.py
+
+# Download small Qwen model (Q4_K_M quantized ~4GB) - placeholder path
+# In production, this would be downloaded or mounted at runtime
+# RUN wget -O /models/qwen-q4_k_m.gguf https://huggingface.co/Qwen/Qwen1.5-7B-GGUF/resolve/main/qwen1.5-7b-q4_k_m.gguf
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    # Default local model settings
+    LOCAL_MODEL_URL=http://127.0.0.1:8080 \
+    LOCAL_MODEL_ID=local-qwen \
+    LOCAL_MODEL_PATH=/models/qwen-q4_k_m.gguf \
+    # Default mode: local-first with Fireworks rescue
+    AMD_REMOTE_MODE=rescue \
+    # Hard per-task timeout (seconds)
+    AMD_TASK_TIMEOUT=25.0
+
+# Run the package from its parent so relative imports resolve correctly.
+WORKDIR /app
+
+# Entry point - wrapper starts llama-server then runs agent
+ENTRYPOINT ["python3", "/app/start_local_agent.py"]
+
+# Expose port for llama.cpp server
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s \
+    CMD python3 -c "import sys; sys.exit(0)" || exit 1
