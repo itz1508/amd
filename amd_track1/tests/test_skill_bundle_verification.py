@@ -7,7 +7,7 @@ from amd_track1.classifier import TaskClassifier
 from amd_track1.executor import FireworksClient, TaskExecutor
 from amd_track1.model_registry import ModelRegistry
 from amd_track1.prompt_builder import PromptBuilder
-from amd_track1.router import TaskRouter
+from amd_track1.router import RoutingDecision, TaskRouter
 from amd_track1.tools.submission_validator import SubmissionValidator
 
 
@@ -54,6 +54,76 @@ def test_math_deterministic_path_uses_zero_model_calls(skills_dir):
     assert result.answer == "5"
     assert result.model_used is None
     assert result.attempt_count == 1
+
+
+def test_math_deterministic_path_handles_richer_expressions(skills_dir):
+    executor = TaskExecutor(skills_dir=skills_dir)
+    executor._registry = ModelRegistry()
+    executor._registry.initialize("fireworks-model")
+    executor._router._registry = executor._registry
+
+    class FailingModelClient:
+        def infer(self, *args, **kwargs):
+            raise AssertionError("model inference should not be called")
+
+        @staticmethod
+        def is_transient_error(error):
+            return False
+
+    executor._fireworks_client = FailingModelClient()
+
+    cases = [
+        ("multi-op", "Calculate: 15 + 27 * 2", "69"),
+        ("parentheses", "Calculate: (2 + 3) * 4", "20"),
+        ("percentage", "What is 20% of 150?", "30"),
+    ]
+
+    for suffix, prompt, expected in cases:
+        result = executor.execute_task({"task_id": f"math-{suffix}", "prompt": prompt})
+        assert result.success is True
+        assert result.answer == expected
+        assert result.model_used is None
+        assert result.attempt_count == 1
+
+
+def test_arithmetic_evaluator_failure_falls_back_to_fireworks(monkeypatch, skills_dir):
+    executor = TaskExecutor(skills_dir=skills_dir)
+    executor._registry = ModelRegistry()
+    executor._registry.initialize("fireworks-model")
+
+    executor._router.route_task = lambda task: RoutingDecision(
+        task_id=task["task_id"],
+        category="mathematical_reasoning",
+        selected_model=None,
+        routing_reason="Deterministic tool arithmetic_evaluator can fully solve",
+        validation_strategy="arithmetic_evaluator_validation",
+        attempt_count=0,
+        input_tokens=None,
+        output_tokens=None,
+        latency=None,
+        escalation_reason=None,
+    )
+
+    def broken_extract(prompt):
+        raise ValueError("broken calculator")
+
+    monkeypatch.setattr("amd_track1.arithmetic_detection.extract_arithmetic_expression", broken_extract)
+
+    class FireworksStub:
+        def infer(self, *args, **kwargs):
+            return ("5", None, 10, 1, 0.01)
+
+        @staticmethod
+        def is_transient_error(error):
+            return False
+
+    executor._fireworks_client = FireworksStub()
+
+    result = executor.execute_task({"task_id": "math-fallback", "prompt": "Calculate: 2 + 3"})
+
+    assert result.success is True
+    assert result.answer == "5"
+    assert result.model_used == "fireworks-model"
 
 
 def test_factual_task_routes_to_fireworks_when_no_tool_can_solve(skills_dir):

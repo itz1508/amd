@@ -1,0 +1,20 @@
+{
+  "capability_id": "code_debugging",
+  "version": "1.0.0",
+  "task_categories": ["code_debugging"],
+  "description": "Detects and fixes code defects in bounded snippets.",
+  "execution_modes": ["deterministic_tool", "local_model", "remote_model"],
+  "allowed_tools": ["code_checker"],
+  "allowed_validators": ["code_checker"],
+  "allowed_models": [],
+  "input_schema": "schemas/task-input.schema.json",
+  "output_schema": "schemas/task-result.schema.json",
+  "benchmark_suites": ["debugging-core"],
+  "deterministic_eligible": true,
+  "supports_batch": true,
+  "timeout_ms": 10000,
+  "max_retries": 1,
+  "owner_module": "amd_track1.capabilities.executors",
+  "implementation": "amd_track1.capabilities.executors.code_debugging",
+  "status": "active"
+}

@@ -32,6 +32,7 @@ COPY --from=builder /root/.local /home/agent/.local
 
 # Make sure scripts in .local are usable
 ENV PATH=/home/agent/.local/bin:$PATH
+ENV PYTHONPATH=/home/agent/.local/lib/python3.11/site-packages
 
 # Copy application code
 COPY amd_track1 /app/amd_track1
@@ -41,8 +42,7 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1
 
-# Switch to non-root user
-USER agent
+# Runtime remains root so /output is writable with standard bind mounts.
 
 # Run the package from its parent so relative imports resolve correctly.
 WORKDIR /app

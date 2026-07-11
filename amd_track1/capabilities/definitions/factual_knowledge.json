@@ -1,0 +1,20 @@
+{
+  "capability_id": "factual_knowledge",
+  "version": "1.0.0",
+  "task_categories": ["factual_knowledge"],
+  "description": "Handles bounded factual lookup and clarification.",
+  "execution_modes": ["deterministic_tool", "local_model", "remote_model"],
+  "allowed_tools": ["json_validator"],
+  "allowed_validators": ["submission_validator"],
+  "allowed_models": [],
+  "input_schema": "schemas/task-input.schema.json",
+  "output_schema": "schemas/task-result.schema.json",
+  "benchmark_suites": ["factual-core"],
+  "deterministic_eligible": true,
+  "supports_batch": true,
+  "timeout_ms": 10000,
+  "max_retries": 1,
+  "owner_module": "amd_track1.capabilities.executors",
+  "implementation": "amd_track1.capabilities.executors",
+  "status": "active"
+}

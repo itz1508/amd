@@ -339,7 +339,8 @@ def call_verifier_once(task_id: str, category: str, prompt: str,
         answer, model_error, input_tokens, output_tokens, latency = fireworks_client.infer(
             model_id=verifier_model,
             prompt=verifier_prompt,
-            timeout=300.0
+            timeout=300.0,
+            max_tokens=256,
         )
         
         if model_error:

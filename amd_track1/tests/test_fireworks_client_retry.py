@@ -56,6 +56,26 @@ def test_retries_transient_http_status_then_returns_success(monkeypatch):
     assert len(calls) == 2
 
 
+def test_infer_uses_explicit_max_tokens(monkeypatch):
+    client = make_client()
+    calls = []
+
+    def fake_post(*args, **kwargs):
+        calls.append((args, kwargs))
+        return DummyResponse(
+            200,
+            payload={"choices": [{"message": {"content": "answer"}}]},
+        )
+
+    monkeypatch.setattr(requests, "post", fake_post)
+
+    answer, error, *_ = client.infer("model", "prompt", timeout=30.0, max_tokens=96)
+
+    assert answer == "answer"
+    assert error is None
+    assert calls[0][1]["json"]["max_tokens"] == 96
+
+
 def test_does_not_retry_permanent_http_status(monkeypatch):
     client = make_client()
     calls = []

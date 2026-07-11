@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AMD Track 1 Capability Definition",
+  "type": "object",
+  "required": [
+    "capability_id",
+    "version",
+    "task_categories",
+    "description",
+    "execution_modes",
+    "allowed_tools",
+    "allowed_validators",
+    "allowed_models",
+    "input_schema",
+    "output_schema",
+    "benchmark_suites",
+    "deterministic_eligible",
+    "supports_batch",
+    "timeout_ms",
+    "max_retries",
+    "owner_module",
+    "implementation",
+    "status"
+  ],
+  "properties": {
+    "capability_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z_0-9]*$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "task_categories": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "description": { "type": "string" },
+    "execution_modes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["deterministic_tool", "local_model", "remote_model"]
+      },
+      "minItems": 1
+    },
+    "allowed_tools": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "allowed_validators": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "allowed_models": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "input_schema": { "type": "string" },
+    "output_schema": { "type": "string" },
+    "benchmark_suites": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "deterministic_eligible": { "type": "boolean" },
+    "supports_batch": { "type": "boolean" },
+    "timeout_ms": { "type": "integer", "minimum": 1 },
+    "max_retries": { "type": "integer", "minimum": 0 },
+    "owner_module": { "type": "string" },
+    "implementation": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["active", "experimental", "deprecated"]
+    }
+  },
+  "additionalProperties": false
+}

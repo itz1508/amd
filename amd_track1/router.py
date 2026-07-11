@@ -81,39 +81,32 @@ class TaskRouter:
             Tuple of (can_solve, tool_name, tool_result_or_none)
         """
         # Import tools here to avoid circular imports
-        from .tools import (
-            ArithmeticEvaluator,
-            json_validator,
-            sentiment_validator,
-            summary_checker,
-            ner_validator,
-            code_checker,
-            logic_checker
-        )
+        from .tools.json_validator import json_validator
+        from .tools.sentiment_validator import sentiment_validator
+        from .tools.summary_checker import summary_checker
+        from .tools.ner_validator import ner_validator
+        from .tools.code_checker import code_checker
+        from .tools.logic_checker import logic_checker
+        from .arithmetic_detection import extract_arithmetic_expression
+        from .tools.arithmetic_evaluator import arithmetic_evaluator
         
         # For mathematical reasoning, try arithmetic evaluator
         if category == 'mathematical_reasoning':
             try:
-                # Try to parse as arithmetic expression
-                # Look for math expressions in the prompt
-                import re
-                matches = re.findall(r'[\d]+[\s]*[+\-*/%^**][\s]*[\d]+', prompt)
-                matches += re.findall(r'\([\d]+[\s]*[+\-*/%^**][\s]*[\d]+\)', prompt)
-                
-                if matches:
-                    # Try to evaluate the first match
-                    result = ArithmeticEvaluator().evaluate_to_string(matches[0])
+                expression = extract_arithmetic_expression(prompt)
+                if expression:
+                    result = arithmetic_evaluator.evaluate_to_string(expression)
                     return True, 'arithmetic_evaluator', result
-            except:
+            except Exception:
                 pass
             
             # Try to solve equations
             try:
                 if 'solve for' in prompt.lower():
-                    result = ArithmeticEvaluator().solve_for_variable(prompt)
+                    result = arithmetic_evaluator.solve_for_variable(prompt)
                     if result is not None:
                         return True, 'arithmetic_evaluator', str(result)
-            except:
+            except Exception:
                 pass
         
         # For sentiment classification with clear label in prompt

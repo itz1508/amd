@@ -18,7 +18,7 @@ class TestConditionalVerifierIntegration:
     @pytest.fixture
     def mock_fireworks_client(self, monkeypatch):
         """Mock FireworksClient to avoid actual API calls."""
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             # Return a simple answer
             return ("mock answer", None, 10, 20, 0.5)
         
@@ -34,7 +34,7 @@ class TestConditionalVerifierIntegration:
         # Mock FireworksClient to track calls
         infer_call_count = 0
         
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             nonlocal infer_call_count
             infer_call_count += 1
             return ("42", None, 10, 20, 0.5)
@@ -73,7 +73,7 @@ class TestConditionalVerifierIntegration:
         infer_call_count = 0
         selected_models = []
         
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             nonlocal infer_call_count
             infer_call_count += 1
             selected_models.append(model_id)
@@ -111,7 +111,7 @@ class TestConditionalVerifierIntegration:
         """High-risk category tasks call verifier exactly once."""
         infer_call_count = 0
         
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             nonlocal infer_call_count
             infer_call_count += 1
             # For solver calls, return code; for verifier calls, return valid JSON response
@@ -151,7 +151,7 @@ class TestConditionalVerifierIntegration:
         """process_input with deterministic tasks produces correct output."""
         infer_call_count = 0
         
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             nonlocal infer_call_count
             infer_call_count += 1
             return ("answer", None, 10, 20, 0.5)
@@ -207,7 +207,7 @@ class TestConditionalVerifierIntegration:
 
     def test_pipeline_output_schema_strict(self, monkeypatch):
         """Pipeline output contains only task_id and answer."""
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             return ("answer", None, 10, 20, 0.5)
         
         with patch('amd_track1.executor.FireworksClient') as mock_exec_cls:
@@ -236,7 +236,7 @@ class TestConditionalVerifierIntegration:
 
     def test_pipeline_all_task_ids_appear_exactly_once(self, monkeypatch):
         """Every input task_id appears exactly once in output."""
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             return ("answer", None, 10, 20, 0.5)
         
         with patch('amd_track1.executor.FireworksClient') as mock_exec_cls:
@@ -280,7 +280,7 @@ class TestConditionalVerifierIntegration:
 
     def test_smoke_real_process_input(self, monkeypatch):
         """Smoke test: real process_input generates output file from sample input."""
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             # For arithmetic prompts, return the computed answer
             import re
             # Match patterns like "2+2" or "2 + 2"

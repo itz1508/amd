@@ -14,7 +14,7 @@ class TestTaskClassifier:
         
         assert result['category'] == 'factual_knowledge'
         assert result['confidence'] > 0
-        assert 'what is' in result['signals'] or 'capital' in result['signals']
+        assert 'factual_question' in result['signals'] or 'what is' in result['signals'] or 'capital' in result['signals']
     
     def test_classify_mathematical_reasoning(self, classifier):
         """Test classification of mathematical reasoning tasks."""

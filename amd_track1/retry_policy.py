@@ -108,8 +108,8 @@ class RetryManager:
         
         # Don't retry on rate limit without changed conditions
         if model_error and 'rate limit' in model_error.lower():
-            # Could retry after delay, but that might exceed time limit
-            return False, "Rate limit error"
+            # Transport retry already happened in executor.py; this is the final decision
+            return False, "Rate limit error persisted after transport retry"
         
         # Check if it's a fixable formatting failure
         if validation_errors:

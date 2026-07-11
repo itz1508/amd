@@ -80,7 +80,7 @@ class FireworksClient:
             base_url: FIREWORKS_BASE_URL
         """
         self.api_key = api_key or os.environ.get('FIREWORKS_API_KEY', '')
-        self.base_url = base_url or os.environ.get('FIREWORKS_BASE_URL', '')
+        self.base_url = (base_url or os.environ.get('FIREWORKS_BASE_URL', '')).rstrip('/')
         self.max_transport_retries = max(1, max_transport_retries)
         self.transport_retry_base_delay = max(0.0, transport_retry_base_delay)
         self.transport_retry_max_delay = max(0.0, transport_retry_max_delay)
@@ -112,7 +112,8 @@ class FireworksClient:
         return min(self.transport_retry_max_delay, exponential + jitter)
 
     def infer(self, model_id: str, prompt: str,
-              timeout: float = 300.0) -> Tuple[Optional[str], Optional[str], Optional[int], Optional[int], Optional[float]]:
+              timeout: float = 300.0,
+              max_tokens: int = 4096) -> Tuple[Optional[str], Optional[str], Optional[int], Optional[int], Optional[float]]:
         """
         Run inference with a model.
         
@@ -137,7 +138,7 @@ class FireworksClient:
         payload = {
             'model': model_id,
             'messages': [{'role': 'user', 'content': prompt}],
-            'max_tokens': 4096,
+            'max_tokens': max_tokens,
             'temperature': 0.0,
             'response_format': {'type': 'text'}
         }
@@ -153,7 +154,7 @@ class FireworksClient:
 
             try:
                 response = requests.post(
-                    f"{self.base_url}/v1/chat/completions",
+                    f"{self.base_url}/chat/completions",
                     headers=headers,
                     json=payload,
                     timeout=remaining
@@ -245,8 +246,9 @@ class TaskExecutor:
         if api_key and base_url:
             self._fireworks_client = FireworksClient(api_key, base_url)
         
-        # Initialize local client (primary when available)
-        self._local_client = local_client
+        # Production Track 1 is Fireworks-only for model inference. Local-model
+        # clients are intentionally ignored even when supplied by legacy callers.
+        self._local_client = None
         
         # Load skills
         if skills_dir:
@@ -308,12 +310,7 @@ class TaskExecutor:
     
     def _select_inference_client(self, model_id: Optional[str]) -> Optional[Any]:
         """
-        Select the appropriate inference client for a model.
-        
-        Respects AMD_REMOTE_MODE:
-        - off:     local only, never Fireworks
-        - rescue:  local first, Fireworks only on failure/escalation
-        - always:  Fireworks primary (debug only)
+        Select the production Fireworks inference client.
         
         Args:
             model_id: The requested model ID
@@ -321,47 +318,7 @@ class TaskExecutor:
         Returns:
             FireworksClient or LocalInferenceClient (both have .infer method)
         """
-        mode = get_remote_mode()
-        local_available = (
-            self._local_client is not None and self._local_client.is_available()
-        )
-        local_model_id = (
-            self._local_client.model_id if self._local_client is not None else None
-        )
-
-        # Mode: off — never use Fireworks
-        if mode == "off":
-            if local_available:
-                return self._local_client.fireworks_client
-            return None
-
-        # Mode: always — prefer Fireworks, local as last resort
-        if mode == "always":
-            if self._fireworks_client is not None:
-                return self._fireworks_client
-            if local_available:
-                return self._local_client.fireworks_client
-            return None
-
-        # Mode: rescue (default) — local first, then Fireworks fallback
-        if local_available:
-            # Use local if: no specific model, model matches local, or Fireworks unavailable
-            if (
-                model_id is None
-                or model_id == local_model_id
-                or not self._fireworks_client
-            ):
-                return self._local_client.fireworks_client
-
-        # Fall back to Fireworks for rescue/always when local doesn't match or unavailable
-        if self._fireworks_client is not None:
-            return self._fireworks_client
-
-        # Last resort: local even if not preferred
-        if local_available:
-            return self._local_client.fireworks_client
-
-        return None
+        return self._fireworks_client
     
     def execute_task(self, task: Dict[str, str],
                      max_attempts: int = 2,
@@ -399,13 +356,15 @@ class TaskExecutor:
                 # For now, we'll just use the tool result directly
                 # In a full implementation, we'd call the tool
                 if tool_name == 'arithmetic_evaluator':
+                    from .arithmetic_detection import extract_arithmetic_expression
                     from .tools import ArithmeticEvaluator
                     try:
-                        # Try to evaluate the prompt as an expression
-                        import re
-                        matches = re.findall(r'[\d]+[\s]*[+\-*/%^**][\s]*[\d]+', prompt)
-                        if matches:
-                            result = ArithmeticEvaluator().evaluate_to_string(matches[0])
+                        expression = extract_arithmetic_expression(prompt)
+                        if expression:
+                            if '% *' in expression:
+                                percent, base = expression.split('% *', 1)
+                                expression = f"({percent} / 100) * {base}"
+                            result = ArithmeticEvaluator().evaluate_to_string(expression)
                             return ExecutionResult(
                                 task_id=task_id,
                                 answer=result,
@@ -414,7 +373,7 @@ class TaskExecutor:
                                 success=True,
                                 attempt_count=1
                             )
-                    except:
+                    except Exception:
                         pass
         
         # Get available models
@@ -670,7 +629,7 @@ class TaskExecutor:
             List of ExecutionResult objects
         """
         concurrency = max_concurrency or self._max_concurrency
-        results = []
+        results_by_id = {}
         
         # Use ThreadPoolExecutor for concurrent execution
         with ThreadPoolExecutor(max_workers=concurrency) as executor:
@@ -681,9 +640,9 @@ class TaskExecutor:
             
             for future in as_completed(futures):
                 result = future.result()
-                results.append(result)
-        
-        return results
+                results_by_id[result.task_id] = result
+
+        return [results_by_id[task['task_id']] for task in tasks]
     
     def process_input(self, input_path: str = '/input/tasks.json',
                       output_path: str = '/output/results.json',
@@ -720,8 +679,13 @@ class TaskExecutor:
             for m in malformed:
                 errors.append(f"Malformed task at index {m['index']}: {m['error']}")
         
-        # Step 2: Initialize components
-        if not self._registry._initialized:
+        # Step 2: Initialize remote components only when at least one task is not
+        # provably solvable by the deterministic arithmetic path.
+        from .arithmetic_detection import extract_arithmetic_expression
+        remote_required = any(
+            extract_arithmetic_expression(task['prompt']) is None for task in tasks
+        )
+        if remote_required and not self._registry._initialized:
             success = self.initialize()
             if not success:
                 errors.append("Failed to initialize model registry")

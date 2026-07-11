@@ -29,17 +29,18 @@ class LocalInferenceClient:
 
         Args:
             base_url: URL of the local OpenAI-compatible server
-                     (default: LOCAL_MODEL_URL env var, or http://127.0.0.1:8080)
+                     (from LOCAL_MODEL_URL)
             model_id: Model ID to use for local inference
-                     (default: LOCAL_MODEL_ID env var, or "local-qwen")
+                     (from LOCAL_MODEL_ID)
             api_key: Optional API key (local servers usually ignore this)
         """
-        self.base_url = (
-            base_url
-            or os.environ.get("LOCAL_MODEL_URL", "http://127.0.0.1:8080")
-        ).rstrip("/")
-        self.model_id = model_id or os.environ.get("LOCAL_MODEL_ID", "local-qwen")
-        self.api_key = api_key or os.environ.get("LOCAL_MODEL_API_KEY", "no-key")
+        self.base_url = (base_url or os.environ.get("LOCAL_MODEL_URL", "")).rstrip("/")
+        self.model_id = model_id or os.environ.get("LOCAL_MODEL_ID", "")
+        self.api_key = api_key or os.environ.get("LOCAL_MODEL_API_KEY", "")
+        if not self.base_url:
+            raise ValueError("LOCAL_MODEL_URL not set")
+        if not self.model_id:
+            raise ValueError("LOCAL_MODEL_ID not set")
         self._fireworks_client: Optional[Any] = None
         self._server_process: Optional[subprocess.Popen] = None
 
@@ -50,9 +51,12 @@ class LocalInferenceClient:
         from .executor import FireworksClient
 
         if self._fireworks_client is None:
+            compatibility_base_url = self.base_url
+            if not compatibility_base_url.endswith('/v1'):
+                compatibility_base_url += '/v1'
             self._fireworks_client = FireworksClient(
                 api_key=self.api_key,
-                base_url=self.base_url,
+                base_url=compatibility_base_url,
                 max_transport_retries=2,
                 transport_retry_base_delay=0.5,
                 transport_retry_max_delay=5.0,
@@ -96,9 +100,9 @@ class LocalInferenceClient:
     def start_server(
         self,
         model_path: Optional[str] = None,
-        host: str = "127.0.0.1",
-        port: int = 8080,
-        context_size: int = 4096,
+        host: Optional[str] = None,
+        port: Optional[int] = None,
+        context_size: Optional[int] = None,
         llama_server_path: Optional[str] = None,
     ) -> bool:
         """
@@ -123,9 +127,12 @@ class LocalInferenceClient:
         if not model_path:
             return False
 
-        llama_server_path = llama_server_path or os.environ.get(
-            "LLAMA_SERVER_PATH", "llama-server"
-        )
+        host = host or os.environ.get("LOCAL_SERVER_HOST")
+        port = port or int(os.environ.get("LOCAL_SERVER_PORT", "0"))
+        context_size = context_size or int(os.environ.get("LOCAL_CONTEXT_SIZE", "0"))
+        llama_server_path = llama_server_path or os.environ.get("LLAMA_SERVER_PATH")
+        if not host or port <= 0 or context_size <= 0 or not llama_server_path:
+            return False
 
         cmd = [
             llama_server_path,

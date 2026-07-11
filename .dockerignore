@@ -16,3 +16,40 @@ __pycache__/
 .env.*
 *.key
 *.pem
+
+# Non-Track-1 release surfaces
+src/
+tests/
+amd_track2/
+submission_assets/
+scripts/
+
+# Experimental and generated Track 1 material
+amd_track1/benchmarks/
+amd_track1/benchmarking/
+amd_track1/*benchmark*
+amd_track1/*LOCAL_QWEN*
+amd_track1/*local_qwen*
+amd_track1/Dockerfile.local-qwen
+amd_track1/start_local_agent.py
+amd_track1/caption_styles.py
+amd_track1/frame_extractor.py
+
+# Local fixtures, reports, bundles, and outputs
+container-test/
+container_smoke_out/
+public-test/
+temp_container_output/
+evidence/
+*.zip
+*.log
+*_REPORT.md
+GAP_REPORT*.md
+TRACK1_STATUS_REPORT.md
+chatgpt_smoke_input.json
+container_smoke_input.json
+preflight_chatgpt_smoke.py
+score_chatgpt_smoke.py
+trace_deterministic.py
+evidence_writer.py
+source_of_truth.json

@@ -17,7 +17,7 @@ class TestFailClosedBehavior:
         """Mock FireworksClient that tracks calls."""
         call_count = 0
         
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             nonlocal call_count
             call_count += 1
             # Return a solver answer
@@ -41,7 +41,7 @@ class TestFailClosedBehavior:
         
         verifier_call_count = 0
         
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             nonlocal verifier_call_count
             # Track if this is a verifier call
             if 'verifier' in prompt.lower() or 'verify' in prompt.lower():
@@ -97,7 +97,7 @@ class TestFailClosedBehavior:
         
         solver_answer = "valid solver answer"
         
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             if 'verifier' in prompt.lower():
                 # Return malformed JSON
                 return ('not valid json {', None, 10, 20, 0.1)
@@ -134,7 +134,7 @@ class TestFailClosedBehavior:
         
         solver_answer = "42"
         
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             if 'verifier' in prompt.lower():
                 # Return valid JSON but with invalid answer
                 return ('{"decision": "accept", "gap": "", "correction_hint": "", "final_answer": "invalid"}', None, 10, 20, 0.1)
@@ -170,7 +170,7 @@ class TestFailClosedBehavior:
         from amd_track1.model_roles import reset_model_cache
         reset_model_cache()
         
-        def mock_infer(model_id, prompt, timeout=300.0):
+        def mock_infer(model_id, prompt, timeout=300.0, max_tokens=None):
             if 'verifier' in prompt.lower():
                 # Simulate timeout
                 raise TimeoutError("Verifier timeout")

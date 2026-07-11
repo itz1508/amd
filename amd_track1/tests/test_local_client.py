@@ -17,13 +17,11 @@ class TestLocalInferenceClient:
     """Tests for LocalInferenceClient class."""
 
     def test_init_defaults(self):
-        """Test initialization with default values."""
+        """Local client requires explicit local endpoint configuration."""
         from amd_track1.local_client import LocalInferenceClient
 
-        client = LocalInferenceClient()
-        assert client.base_url == "http://127.0.0.1:8080"
-        assert client.model_id == "local-qwen"
-        assert client.api_key == "no-key"
+        with pytest.raises(ValueError, match="LOCAL_MODEL_URL not set"):
+            LocalInferenceClient()
 
     def test_init_from_env(self, monkeypatch):
         """Test initialization from environment variables."""
@@ -43,6 +41,7 @@ class TestLocalInferenceClient:
         from amd_track1.local_client import LocalInferenceClient
 
         monkeypatch.setenv("LOCAL_MODEL_URL", "http://localhost:9999")
+        monkeypatch.setenv("LOCAL_MODEL_ID", "env-model")
         client = LocalInferenceClient(base_url="http://override:8888")
         assert client.base_url == "http://override:8888"
 
@@ -55,14 +54,17 @@ class TestLocalInferenceClient:
 
         fw = client.fireworks_client
         assert client._fireworks_client is not None
-        assert fw.base_url == "http://localhost:8080"
+        assert fw.base_url == "http://localhost:8080/v1"
         assert fw.api_key == "k"
 
     def test_is_available_success(self, monkeypatch):
         """Test is_available when server responds."""
         from amd_track1.local_client import LocalInferenceClient
 
-        client = LocalInferenceClient()
+        client = LocalInferenceClient(
+            base_url="http://localhost:8080",
+            model_id="local-qwen",
+        )
 
         # Mock urllib.request.urlopen to return a successful response
         class FakeResponse:
@@ -84,7 +86,10 @@ class TestLocalInferenceClient:
         """Test is_available when server is down."""
         from amd_track1.local_client import LocalInferenceClient
 
-        client = LocalInferenceClient()
+        client = LocalInferenceClient(
+            base_url="http://localhost:8080",
+            model_id="local-qwen",
+        )
 
         def fake_urlopen(req, timeout):
             raise URLError("Connection refused")
@@ -96,7 +101,10 @@ class TestLocalInferenceClient:
         """Test that infer delegates to the FireworksClient."""
         from amd_track1.local_client import LocalInferenceClient
 
-        client = LocalInferenceClient(model_id="my-model")
+        client = LocalInferenceClient(
+            base_url="http://localhost:8080",
+            model_id="my-model",
+        )
 
         # Mock the underlying _fireworks_client directly (property has no setter)
         mock_fw = MagicMock()
@@ -115,14 +123,21 @@ class TestLocalInferenceClient:
         """Test start_server fails without model path."""
         from amd_track1.local_client import LocalInferenceClient
 
-        client = LocalInferenceClient()
-        assert client.start_server() is False
+        client = LocalInferenceClient(
+            base_url="http://localhost:8080",
+            model_id="local-qwen",
+        )
+        with patch.object(client, "is_available", return_value=False):
+            assert client.start_server() is False
 
     def test_stop_server_not_started(self):
         """Test stop_server when no server was started."""
         from amd_track1.local_client import LocalInferenceClient
 
-        client = LocalInferenceClient()
+        client = LocalInferenceClient(
+            base_url="http://localhost:8080",
+            model_id="local-qwen",
+        )
         # Should not raise
         client.stop_server()
         assert client._server_process is None
@@ -136,6 +151,7 @@ class TestLocalClientFactories:
         from amd_track1.local_client import get_local_client
 
         monkeypatch.setenv("LOCAL_MODEL_URL", "http://localhost:8080")
+        monkeypatch.setenv("LOCAL_MODEL_ID", "local-qwen")
         client = get_local_client()
         assert client is not None
         assert client.base_url == "http://localhost:8080"
@@ -145,9 +161,8 @@ class TestLocalClientFactories:
         from amd_track1.local_client import get_local_client
 
         monkeypatch.setenv("LOCAL_MODEL_PATH", "/path/to/model.gguf")
-        client = get_local_client()
-        assert client is not None
-        assert client.model_id == "local-qwen"
+        with pytest.raises(ValueError, match="LOCAL_MODEL_URL not set"):
+            get_local_client()
 
     def test_get_local_client_none(self, monkeypatch):
         """Test get_local_client returns None when no local config."""

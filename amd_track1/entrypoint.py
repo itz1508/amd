@@ -3,6 +3,10 @@ AMD Track 1 Entry Point
 
 Main entry point for the AMD Track 1 general-purpose AI agent.
 Reads /input/tasks.json, processes tasks, writes /output/results.json.
+
+FIX: Defer Fireworks configuration validation until a task actually requires Fireworks.
+This allows deterministic-only tasks to succeed without FIREWORKS_API_KEY, FIREWORKS_BASE_URL,
+or ALLOWED_MODELS set in the environment.
 """
 
 import argparse
@@ -70,7 +74,7 @@ def main():
         # Use default relative to this file
         skills_dir = os.path.join(os.path.dirname(__file__), 'skills')
     
-    # Create executor
+    # Create executor (does not require Fireworks for deterministic-only work)
     try:
         executor = get_executor(
             skills_dir=skills_dir,
@@ -80,43 +84,8 @@ def main():
         print(f"Error initializing executor: {e}", file=sys.stderr)
         sys.exit(1)
     
-    # Initialize from environment
-    try:
-        # Check required environment variables
-        api_key = os.environ.get('FIREWORKS_API_KEY')
-        base_url = os.environ.get('FIREWORKS_BASE_URL')
-        allowed_models = os.environ.get('ALLOWED_MODELS')
-        
-        # Check if local-first mode is enabled
-        local_mode_enabled = (
-            os.environ.get('LOCAL_MODEL_URL') is not None
-            or os.environ.get('LOCAL_MODEL_PATH') is not None
-            or os.environ.get('LOCAL_FIRST', '').lower() in ('1', 'true', 'yes')
-        )
-        
-        # Fireworks env vars are optional when local mode is enabled
-        if not api_key and not local_mode_enabled:
-            print("Error: FIREWORKS_API_KEY not set (and local mode not enabled)", file=sys.stderr)
-            sys.exit(1)
-        
-        if not base_url and not local_mode_enabled:
-            print("Error: FIREWORKS_BASE_URL not set (and local mode not enabled)", file=sys.stderr)
-            sys.exit(1)
-        
-        if not allowed_models and not local_mode_enabled:
-            print("Error: ALLOWED_MODELS not set (and local mode not enabled)", file=sys.stderr)
-            sys.exit(1)
-        
-        # Initialize with allowed models (may be None in local-only mode)
-        success = executor.initialize(allowed_models)
-        if not success:
-            print("Error: Failed to initialize model registry", file=sys.stderr)
-            sys.exit(1)
-    except Exception as e:
-        print(f"Error during initialization: {e}", file=sys.stderr)
-        sys.exit(1)
-    
     # Process input
+    # Fireworks configuration is validated lazily inside process_input when/if needed
     try:
         start_time = __import__('time').time()
         
